@@ -52,7 +52,12 @@
       'sum.filtered': 'الإجمالي (بعد الفلتر)', 'sum.all': 'الإجمالي الكلي',
       'rows': 'سجل', 'page': 'صفحة', 'prev': 'السابق', 'next': 'التالي', 'noRows': 'لا توجد نتائج مطابقة',
       'obj.proj': 'مشروع', 'obj.cust': 'عميل',
-      'gauge.score': 'النتيجة'
+      'gauge.score': 'النتيجة',
+      'ch.status': 'توزيع حالات المؤشرات', 'ch.objscore': 'متوسط نتيجة المحاور (0–100)',
+      'ch.tbmonth': 'المدين والدائن شهرياً', 'ch.tbproj': 'أعلى المشاريع بالرصيد',
+      'ch.tbacc': 'المدين/الدائن حسب نوع الحساب', 'ch.tbcust': 'أعلى العملاء/الموردين بالحركة',
+      'ch.empty': 'لا توجد بيانات كافية للرسم البياني',
+      'ch.debit': 'مدين', 'ch.credit': 'دائن', 'ch.amount': 'المبلغ'
     },
     en: {
       'app.title': 'Financial KPI Dashboard', 'app.sub': 'DesignTech Engineering Consultants',
@@ -100,7 +105,12 @@
       'sum.filtered': 'Total (filtered)', 'sum.all': 'Grand Total',
       'rows': 'rows', 'page': 'Page', 'prev': 'Prev', 'next': 'Next', 'noRows': 'No matching results',
       'obj.proj': 'Project', 'obj.cust': 'Customer',
-      'gauge.score': 'Score'
+      'gauge.score': 'Score',
+      'ch.status': 'KPI Status Distribution', 'ch.objscore': 'Objective Average Score (0–100)',
+      'ch.tbmonth': 'Debit & Credit by Month', 'ch.tbproj': 'Top Projects by Balance',
+      'ch.tbacc': 'Debit / Credit by Account Type', 'ch.tbcust': 'Top Customers / Vendors by Activity',
+      'ch.empty': 'Not enough data to plot',
+      'ch.debit': 'Debit', 'ch.credit': 'Credit', 'ch.amount': 'Amount'
     }
   };
   function T(k) { var L = I18N[state.lang] || I18N.ar; return L[k] != null ? L[k] : k; }
@@ -339,6 +349,10 @@
     var dr = (SUMMARY.statusCounts && SUMMARY.statusCounts['Data Required']) || 0;
     h += scoreCard(T('datareq'), dr, '', 'var(--muted)');
     h += '</div>';
+    h += '<div class="chartgrid">' +
+      '<div class="card chartcard"><h3>' + T('ch.status') + '</h3><div id="chStatus" class="chart sm"></div></div>' +
+      '<div class="card chartcard"><h3>' + T('ch.objscore') + '</h3><div id="chObj" class="chart sm"></div></div>' +
+      '</div>';
     h += objTableFull();
     h += '<div class="note"><b>' + T('exec.guide') + ':</b> ' + T('exec.guide.txt') + '</div>';
     h += '<div class="note"><b>' + T('exec.limit') + ':</b> ' + T('exec.limit.txt') + '</div>';
@@ -354,6 +368,7 @@
     h += scoreCard(T('crit.obj'), critObjs, '', 'var(--neg)');
     h += scoreCard(T('att.obj'), attObjs, '', 'var(--warn)');
     h += '</div>';
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ch.objscore') + '</h3><div id="chObj" class="chart"></div></div></div>';
     h += '<div class="tablewrap"><table><thead><tr><th>' + T('tbl.obj') + '</th><th>' + T('tbl.name') + '</th><th class="r">' + T('tbl.scoreobj') + '</th><th>' + T('tbl.exc') + '</th><th>' + T('tbl.status') + '</th><th>' + T('drill.obj') + '</th><th>' + T('tbl.action') + '</th></tr></thead><tbody>';
     KO.forEach(function (o) {
       var st = objStatus(o), cc = (o.counts && o.counts.Critical) || 0, ac = (o.counts && o.counts.Attention) || 0;
@@ -492,6 +507,7 @@
     var h = crumb([]) + viewHead(T('exp.title'), T('exp.sub'));
     h += tabs('tx');
     h += filterBar();
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ch.tbmonth') + '</h3><div id="chTx" class="chart"></div></div></div>';
     h += '<div class="tablewrap"><table><thead><tr><th>' + T('c.date') + '</th><th>' + T('c.acc') + '</th><th>' + T('c.accname') + '</th><th>' + T('c.desc') + '</th><th>' + T('c.partner') + '</th><th class="r">' + T('c.debit') + '</th><th class="r">' + T('c.credit') + '</th></tr></thead><tbody>';
     if (!idxs.length) h += '<tr><td colspan="7"><div class="empty">' + T('noRows') + '</div></td></tr>';
     for (var i = start; i < end; i++) {
@@ -507,9 +523,13 @@
       '<button class="btn sm" data-pg="' + (page - 1) + '"' + (page <= 1 ? ' disabled' : '') + '>‹ ' + T('prev') + '</button>' +
       '<button class="btn sm" data-pg="' + (page + 1) + '"' + (page >= pages ? ' disabled' : '') + '>' + T('next') + ' ›</button></div>';
   }
+  function extCounts() { return { tx: D.tx.rows.length, proj: D.projects.length, acc: accountsList().length, cust: customers().length }; }
   function tabs(active) {
-    var t = [['tx', T('tab.tx')], ['proj', T('tab.proj')], ['acc', T('tab.acc')], ['cust', T('tab.cust')]];
-    return '<div class="seg" style="margin-bottom:14px">' + t.map(function (x) { return '<button data-nav="' + x[0] + '" class="' + (active === x[0] ? 'on' : '') + '">' + esc(x[1]) + '</button>'; }).join('') + '</div>';
+    var c = extCounts();
+    var t = [['tx', '≡', T('tab.tx'), c.tx], ['proj', '◧', T('tab.proj'), c.proj], ['acc', '▤', T('tab.acc'), c.acc], ['cust', '☺', T('tab.cust'), c.cust]];
+    return '<div class="extabs">' + t.map(function (x) {
+      return '<button class="etab' + (active === x[0] ? ' on' : '') + '" data-nav="' + x[0] + '"><span class="ic">' + x[1] + '</span><span>' + esc(x[2]) + '</span><span class="ct">' + nf(x[3], 0) + '</span></button>';
+    }).join('') + '</div>';
   }
 
   function renderProj() {
@@ -518,6 +538,7 @@
     var tD = 0, tC = 0, tB = 0;
     list.forEach(function (p) { tD += p.debit || 0; tC += p.credit || 0; tB += p.balance || 0; });
     var h = crumb([]) + viewHead(T('exp.title'), T('exp.sub')) + tabs('proj') + filterBar();
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ch.tbproj') + '</h3><div id="chProj" class="chart"></div></div></div>';
     h += '<div class="tablewrap"><table><thead><tr><th>#</th><th>' + T('c.name') + '</th><th>' + T('c.ref') + '</th><th>' + T('c.partner') + '</th><th>' + T('c.plan') + '</th><th class="r">' + T('c.debit') + '</th><th class="r">' + T('c.credit') + '</th><th class="r">' + T('c.bal') + '</th></tr></thead><tbody>';
     if (!list.length) h += '<tr><td colspan="8"><div class="empty">' + T('noRows') + '</div></td></tr>';
     list.forEach(function (p, i) {
@@ -533,6 +554,7 @@
     var tD = 0, tC = 0, tB = 0, tN = 0;
     list.forEach(function (a) { tD += a.debit || 0; tC += a.credit || 0; tB += a.balance || 0; tN += cnt[a.code] || 0; });
     var h = crumb([]) + viewHead(T('exp.title'), T('exp.sub')) + tabs('acc') + filterBar();
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ch.tbacc') + '</h3><div id="chAcc" class="chart"></div></div></div>';
     h += '<div class="tablewrap"><table><thead><tr><th>#</th><th>' + T('c.code') + '</th><th>' + T('c.name') + '</th><th>' + T('c.type') + '</th><th class="r">' + T('c.moves') + '</th><th class="r">' + T('c.debit') + '</th><th class="r">' + T('c.credit') + '</th><th class="r">' + T('c.bal') + '</th></tr></thead><tbody>';
     list.forEach(function (a, i) {
       var mv = cnt[a.code] || 0;
@@ -555,6 +577,7 @@
     var tD = 0, tC = 0;
     list.forEach(function (x) { tD += x.dr; tC += x.cr; });
     var h = crumb([]) + viewHead(T('exp.title'), T('exp.sub')) + tabs('cust') + filterBar();
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ch.tbcust') + '</h3><div id="chCust" class="chart"></div></div></div>';
     h += '<div class="tablewrap"><table><thead><tr><th>#</th><th>' + T('c.name') + '</th><th class="r">' + T('c.count') + '</th><th class="r">' + T('c.revenue') + '</th><th class="r">' + T('c.spend') + '</th><th class="r">' + T('c.net') + '</th></tr></thead><tbody>';
     if (!list.length) h += '<tr><td colspan="6"><div class="empty">' + T('noRows') + '</div></td></tr>';
     list.forEach(function (x, i) {
@@ -592,15 +615,146 @@
       default: html = renderExec();
     }
     $('#viewHost').innerHTML = html;
+    drawCharts();
     if (state.view === 'kpi') drawGauge();
   }
 
+  // ---------------- charts ----------------
+  var CHARTS = {};
+  function themeVars() {
+    var cs = getComputedStyle(document.documentElement);
+    function g(n) { return cs.getPropertyValue(n).trim(); }
+    return {
+      text: g('--text'), muted: g('--muted'), muted2: g('--muted2'), grid: g('--grid'), panel: g('--panel'),
+      pos: g('--pos'), warn: g('--warn'), neg: g('--neg'),
+      ch: [g('--ch1'), g('--ch2'), g('--ch3'), g('--ch4'), g('--ch5'), g('--ch6'), g('--ch7'), g('--ch8')]
+    };
+  }
+  function stHex(s, tv) { return s === 'On Target' ? tv.pos : s === 'Attention' ? tv.warn : s === 'Critical' ? tv.neg : s === 'Data Required' ? tv.muted2 : tv.muted; }
+  function chartHost(id) {
+    var el = $('#' + id); if (!el || !window.echarts) return null;
+    if (CHARTS[id]) { try { CHARTS[id].dispose(); } catch (e) {} delete CHARTS[id]; }
+    var c = echarts.init(el); CHARTS[id] = c; return c;
+  }
+  function chartEmpty(id) { var el = $('#' + id); if (el) el.innerHTML = '<div class="chart-empty">' + T('ch.empty') + '</div>'; }
+  function disposeCharts() { for (var k in CHARTS) { try { CHARTS[k].dispose(); } catch (e) {} } CHARTS = {}; }
+
+  function drawCharts() {
+    if (!window.echarts) return;
+    disposeCharts();
+    var tv = themeVars(), v = state.view;
+    var axis = {
+      axisLabel: { color: tv.muted, fontSize: 11 },
+      axisLine: { lineStyle: { color: tv.grid } }
+    };
+    if (v === 'exec' || v === 'fin') {
+      var sc = SUMMARY.statusCounts || {}, order = ['On Target', 'Attention', 'Critical', 'Data Required', 'Target Pending'];
+      var data = [];
+      order.forEach(function (k) { if ((sc[k] || 0) > 0) data.push({ name: stLabel(k), value: sc[k], itemStyle: { color: stHex(k, tv) } }); });
+      var c1 = chartHost('chStatus');
+      if (c1) {
+        if (!data.length) chartEmpty('chStatus');
+        else c1.setOption({
+          tooltip: { trigger: 'item' },
+          legend: { bottom: 0, textStyle: { color: tv.muted, fontSize: 11 } },
+          series: [{ type: 'pie', radius: ['50%', '76%'], center: ['50%', '44%'], avoidLabelOverlap: true,
+            label: { color: tv.text, fontSize: 11, formatter: '{b}\n{c}' },
+            labelLine: { lineStyle: { color: tv.grid } },
+            itemStyle: { borderColor: tv.panel, borderWidth: 3 }, data: data }]
+        });
+      }
+      var c2 = chartHost('chObj');
+      if (c2) c2.setOption({
+        grid: { left: 6, right: 12, top: 18, bottom: 6, containLabel: true },
+        tooltip: { trigger: 'axis' },
+        xAxis: Object.assign({ type: 'category', data: KO.map(function (o) { return o.code; }) }, axis),
+        yAxis: Object.assign({ type: 'value', max: 100, splitLine: { lineStyle: { color: tv.grid } } }, axis),
+        series: [{ type: 'bar', barMaxWidth: 26,
+          data: KO.map(function (o) { var s = o.avgScore == null ? null : +nf(o.avgScore, 2); return { value: s, itemStyle: { color: s == null ? tv.muted2 : (s >= 100 ? tv.pos : s >= 80 ? tv.warn : tv.neg), borderRadius: [4, 4, 0, 0] } }; }) }]
+      });
+    }
+    if (v === 'tx') {
+      var idxs = txFiltered(), m = rowMonths(), rows = D.tx.rows, mi = {};
+      MONTHS.forEach(function (mk, i) { mi[mk] = i; });
+      var dr = MONTHS.map(function () { return 0; }), cr = MONTHS.map(function () { return 0; });
+      for (var z = 0; z < idxs.length; z++) { var i = mi[m[idxs[z]]]; if (i == null) continue; dr[i] += rows[idxs[z]][2]; cr[i] += rows[idxs[z]][3]; }
+      var c3 = chartHost('chTx');
+      if (c3) c3.setOption({
+        grid: { left: 6, right: 12, top: 30, bottom: 6, containLabel: true },
+        tooltip: { trigger: 'axis', valueFormatter: function (x) { return nf(x, 2); } },
+        legend: { top: 0, textStyle: { color: tv.muted, fontSize: 11 }, data: [T('ch.debit'), T('ch.credit')] },
+        xAxis: Object.assign({ type: 'category', data: MONTHS.map(function (mk) { return mk.slice(5); }) }, axis),
+        yAxis: Object.assign({ type: 'value', splitLine: { lineStyle: { color: tv.grid } } }, axis),
+        series: [
+          { name: T('ch.debit'), type: 'bar', data: dr, barMaxWidth: 18, itemStyle: { color: tv.ch[0], borderRadius: [3, 3, 0, 0] } },
+          { name: T('ch.credit'), type: 'bar', data: cr, barMaxWidth: 18, itemStyle: { color: tv.ch[4], borderRadius: [3, 3, 0, 0] } }
+        ]
+      });
+    }
+    if (v === 'proj') {
+      var list = D.projects.slice(), fp = state.f;
+      if (fp.customer != null && PART[fp.customer]) { var cn = PART[fp.customer]; list = list.filter(function (p) { return p.customer === cn; }); }
+      list.sort(function (a, b) { return Math.abs(b.balance || 0) - Math.abs(a.balance || 0); });
+      var top = list.slice(0, 12).reverse();
+      var c4 = chartHost('chProj');
+      if (c4) {
+        if (!top.length) chartEmpty('chProj');
+        else c4.setOption({
+          grid: { left: 6, right: 16, top: 10, bottom: 6, containLabel: true },
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: function (x) { return nf(x, 2); } },
+          xAxis: Object.assign({ type: 'value', splitLine: { lineStyle: { color: tv.grid } } }, axis),
+          yAxis: Object.assign({ type: 'category', data: top.map(function (p) { return p.name.length > 26 ? p.name.slice(0, 25) + '…' : p.name; }) }, axis),
+          series: [{ type: 'bar', barMaxWidth: 16, data: top.map(function (p) { var b = p.balance || 0; return { value: b, itemStyle: { color: b < 0 ? tv.neg : tv.pos, borderRadius: [0, 4, 4, 0] } }; }) }]
+        });
+      }
+    }
+    if (v === 'acc') {
+      var fa = state.f, alist = accountsList().slice();
+      if (fa.type != null) alist = alist.filter(function (a) { return a.type === fa.type; });
+      var byType = {};
+      alist.forEach(function (a) { var t = a.type || '—'; if (!byType[t]) byType[t] = { d: 0, c: 0 }; byType[t].d += a.debit || 0; byType[t].c += a.credit || 0; });
+      var names = Object.keys(byType).sort(function (x, y) { return (byType[y].d + byType[y].c) - (byType[x].d + byType[x].c); });
+      var c5 = chartHost('chAcc');
+      if (c5) {
+        if (!names.length) chartEmpty('chAcc');
+        else c5.setOption({
+          grid: { left: 6, right: 12, top: 30, bottom: 6, containLabel: true },
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: function (x) { return nf(x, 2); } },
+          legend: { top: 0, textStyle: { color: tv.muted, fontSize: 11 }, data: [T('ch.debit'), T('ch.credit')] },
+          xAxis: Object.assign({ type: 'category', data: names }, axis),
+          yAxis: Object.assign({ type: 'value', splitLine: { lineStyle: { color: tv.grid } } }, axis),
+          series: [
+            { name: T('ch.debit'), type: 'bar', stack: 't', data: names.map(function (n) { return byType[n].d; }), barMaxWidth: 30, itemStyle: { color: tv.ch[0] } },
+            { name: T('ch.credit'), type: 'bar', stack: 't', data: names.map(function (n) { return byType[n].c; }), barMaxWidth: 30, itemStyle: { color: tv.ch[4] } }
+          ]
+        });
+      }
+    }
+    if (v === 'cust') {
+      var idxs2 = txFiltered(), rows2 = D.tx.rows, map = {};
+      for (var z2 = 0; z2 < idxs2.length; z2++) { var r = rows2[idxs2[z2]], pi = r[5]; if (!map[pi]) map[pi] = { name: custName(pi), v: 0 }; map[pi].v += r[2] + r[3]; }
+      var cl = Object.keys(map).map(function (k) { return map[k]; });
+      cl.sort(function (a, b) { return b.v - a.v; });
+      var topC = cl.slice(0, 12).reverse();
+      var c6 = chartHost('chCust');
+      if (c6) {
+        if (!topC.length) chartEmpty('chCust');
+        else c6.setOption({
+          grid: { left: 6, right: 16, top: 10, bottom: 6, containLabel: true },
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: function (x) { return nf(x, 2); } },
+          xAxis: Object.assign({ type: 'value', splitLine: { lineStyle: { color: tv.grid } } }, axis),
+          yAxis: Object.assign({ type: 'category', data: topC.map(function (p) { return p.name.length > 26 ? p.name.slice(0, 25) + '…' : p.name; }) }, axis),
+          series: [{ type: 'bar', barMaxWidth: 16, data: topC.map(function (p) { return { value: p.v, itemStyle: { color: tv.ch[1], borderRadius: [0, 4, 4, 0] } }; }) }]
+        });
+      }
+    }
+  }
+
   function drawGauge() {
-    var node = $('#gauge'); if (!node || !window.echarts) return;
     var kp = KPI[state.kpi]; if (!kp || kp.score == null) return;
+    var ch = chartHost('gauge'); if (!ch) return;
     var col = kp.score >= 100 ? '#22d3a7' : kp.score >= 80 ? '#f5b544' : '#ef4d6b';
     try {
-      var ch = echarts.init(node);
       ch.setOption({
         series: [{
           type: 'gauge', min: 0, max: 100, startAngle: 210, endAngle: -30, radius: '96%', center: ['50%', '62%'],
@@ -613,7 +767,6 @@
           data: [{ value: Math.round(kp.score * 10) / 10, name: T('gauge.score') }]
         }]
       });
-      window.addEventListener('resize', function () { try { ch.resize(); } catch (e) {} });
     } catch (e) {}
   }
 
@@ -701,6 +854,7 @@
     document.querySelectorAll('button[data-lang]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-lang') === state.lang); });
     document.querySelectorAll('button[data-theme]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-theme') === state.theme); });
     initUpload();
+    var _rz; window.addEventListener('resize', function () { clearTimeout(_rz); _rz = setTimeout(function () { for (var k in CHARTS) { try { CHARTS[k].resize(); } catch (e) {} } }, 150); });
     render();
   }
   if (!D) { $('#viewHost').innerHTML = '<div class="empty">No data. Run build_data.js.</div>'; return; }

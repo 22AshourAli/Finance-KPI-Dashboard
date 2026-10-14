@@ -56,6 +56,24 @@ a{color:inherit;text-decoration:none}
 .seg button{padding:8px 12px;background:var(--panel2);border:0;color:var(--muted);cursor:pointer;font-size:13px;font-weight:600}
 .seg button.on{background:var(--accent);color:#fff}
 
+/* explorer tab bar */
+.extabs{display:flex;gap:6px;overflow-x:auto;padding:6px;margin-bottom:16px;border:1px solid var(--border);border-radius:14px;background:var(--panel);box-shadow:var(--shadow);scrollbar-width:thin}
+.extabs::-webkit-scrollbar{height:6px}
+.extabs .etab{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.15s;min-width:max-content}
+.extabs .etab .ic{font-size:15px;opacity:.95}
+.extabs .etab .ct{font-size:10.5px;font-weight:800;background:var(--panel3);border:1px solid var(--border2);border-radius:999px;padding:1px 8px;color:var(--muted);font-variant-numeric:tabular-nums}
+.extabs .etab:hover{background:var(--panel2);color:var(--text)}
+.extabs .etab.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;box-shadow:0 6px 16px color-mix(in srgb,var(--accent) 30%,transparent)}
+.extabs .etab.on .ct{background:rgba(255,255,255,.22);border-color:transparent;color:#fff}
+
+/* charts */
+.chartgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-bottom:16px}
+.chart{width:100%;height:300px}
+.chart.sm{height:250px}
+.chartcard{padding:14px}
+.chartcard h3{margin-bottom:6px}
+.chart-empty{display:grid;place-items:center;height:100%;color:var(--muted);font-size:12.5px}
+
 .layout{display:flex;align-items:flex-start;min-height:calc(100vh - 65px)}
 .sidebar{width:262px;flex:0 0 262px;padding:16px 12px;position:sticky;top:65px;align-self:flex-start;max-height:calc(100vh - 65px);overflow:auto}
 .nav{display:flex;flex-direction:column;gap:4px}
@@ -213,6 +231,10 @@ body.sb-lock{overflow:hidden}
   thead th,td,th{padding:8px 9px}
   .tablewrap{max-height:440px}
   .defrow .dk{flex-basis:46%}
+  .extabs .etab{padding:10px 12px;font-size:12px;gap:6px}
+  .extabs .etab .ic{font-size:13px}
+  .extabs .etab .ct{font-size:9.5px;padding:1px 6px}
+  .chart{height:250px}.chart.sm{height:220px}
 }
 </style>
 </head>
