@@ -46,7 +46,7 @@
 - **المشاريع:** 163 مشروعًا (الاسم، المرجع، العميل، الخطة، مدين/دائن/الرصيد) + مخطط أعلى 12 مشروعًا بالرصيد. فلتر: العميل.
 - **دليل الحسابات:** 442 حسابًا (بدون حسابات "Unmapped" التجميعية ذات الرصيد الصفري) مع عدد الحركات لكل حساب + مخطط المدين/الدائن حسب النوع. فلتر: النوع (17 نوعًا).
 - **العملاء/الموردون:** تجميع الحركات حسب الشريك (عدد الحركات، مدين، دائن، صافي) + مخطط أعلى 12. فلتر: الفترة.
-- **النقر للتنقّل:** صف الحساب → حركاته؛ صف العميل → حركاته؛ صف الهدف/المؤشر → صفحته.
+- **النقر على أي صف (مشروع / حساب / عميل):** يفتح **بوباب بالتفاصيل** — ملخص (مدين/دائن/رصيد/عدد الحركات)، رسم بياني، وجدول حركات خاصة به **فقط**. يحتوي البوباب زر «فتح الحركات في المستكشف». صف الهدف/المؤشر → صفحته. يُغلق البوباب بالزر ✕ أو بالنقر خارجه أو بمفتاح Esc.
 
 ### 5) الرسوم البيانية (تعمل مع البيانات الكبيرة)
 - **اللوحة التنفيذية/المالية:** مخطط دائري لحالة المؤشرات + مخطط أعمدة لدرجات الأهداف (0–100).
@@ -115,7 +115,7 @@
 - **Projects:** 163 projects (name, reference, customer, plan, debit/credit/balance) + top-12-by-balance bar. Filter: customer.
 - **Chart of Accounts:** 442 accounts (excluding zero-balance "Unmapped" roll-ups) with movement count per account + debit/credit-by-type bar. Filter: type (17).
 - **Customers/Vendors:** transactions grouped by partner (count, debit, credit, net) + top-12 bar. Filter: period.
-- **Click-through:** account row → its transactions; customer row → its transactions; objective/KPI row → its page.
+- **Click any row (project / account / customer):** opens a **details popup** — summary (debit/credit/balance/movement count), a chart, and a movements table for **that item only**, with an "Open movements in explorer" button. Objective/KPI row → its page. Close the popup via ✕, clicking outside, or Esc.
 
 ### 5) Charts (built for large data)
 - **Executive/Finance:** status pie + objective score bar (0–100).

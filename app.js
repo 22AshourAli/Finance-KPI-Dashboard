@@ -57,7 +57,13 @@
       'ch.tbmonth': 'المدين والدائن شهرياً', 'ch.tbproj': 'أعلى المشاريع بالرصيد',
       'ch.tbacc': 'المدين/الدائن حسب نوع الحساب', 'ch.tbcust': 'أعلى العملاء/الموردين بالحركة',
       'ch.empty': 'لا توجد بيانات كافية للرسم البياني',
-      'ch.debit': 'مدين', 'ch.credit': 'دائن', 'ch.amount': 'المبلغ'
+      'ch.debit': 'مدين', 'ch.credit': 'دائن', 'ch.amount': 'المبلغ',
+      'dt.proj': 'تفاصيل المشروع', 'dt.acc': 'تفاصيل الحساب', 'dt.cust': 'تفاصيل العميل / المورد',
+      'dt.summary': 'الملخص', 'dt.movements': 'الحركات التفصيلية',
+      'dt.nomoves': 'لا توجد حركات مسجّلة لهذا العنصر',
+      'dt.projNote': 'لا يتضمّن تصدير دفتر الأستاذ وسم المشروع (الحساب التحليلي)، لذلك تُعرض إجماليات المشروع (مدين / دائن / رصيد) فقط دون سطور الحركات.',
+      'dt.openExplorer': 'فتح الحركات في المستكشف', 'dt.customer': 'العميل',
+      'dt.plan': 'الخطة', 'dt.ref': 'المرجع', 'dt.page': 'صفحة', 'dt.entries': 'حركة'
     },
     en: {
       'app.title': 'Financial KPI Dashboard', 'app.sub': 'DesignTech Engineering Consultants',
@@ -110,7 +116,13 @@
       'ch.tbmonth': 'Debit & Credit by Month', 'ch.tbproj': 'Top Projects by Balance',
       'ch.tbacc': 'Debit / Credit by Account Type', 'ch.tbcust': 'Top Customers / Vendors by Activity',
       'ch.empty': 'Not enough data to plot',
-      'ch.debit': 'Debit', 'ch.credit': 'Credit', 'ch.amount': 'Amount'
+      'ch.debit': 'Debit', 'ch.credit': 'Credit', 'ch.amount': 'Amount',
+      'dt.proj': 'Project Details', 'dt.acc': 'Account Details', 'dt.cust': 'Customer / Vendor Details',
+      'dt.summary': 'Summary', 'dt.movements': 'Detailed Movements',
+      'dt.nomoves': 'No transactions recorded for this item',
+      'dt.projNote': 'The General Ledger export does not tag rows with the project (analytic account), so only the project totals (debit / credit / balance) are shown, without line-level movements.',
+      'dt.openExplorer': 'Open movements in explorer', 'dt.customer': 'Customer',
+      'dt.plan': 'Plan', 'dt.ref': 'Reference', 'dt.page': 'Page', 'dt.entries': 'entries'
     }
   };
   function T(k) { var L = I18N[state.lang] || I18N.ar; return L[k] != null ? L[k] : k; }
@@ -542,7 +554,7 @@
     h += '<div class="tablewrap"><table><thead><tr><th>#</th><th>' + T('c.name') + '</th><th>' + T('c.ref') + '</th><th>' + T('c.partner') + '</th><th>' + T('c.plan') + '</th><th class="r">' + T('c.debit') + '</th><th class="r">' + T('c.credit') + '</th><th class="r">' + T('c.bal') + '</th></tr></thead><tbody>';
     if (!list.length) h += '<tr><td colspan="8"><div class="empty">' + T('noRows') + '</div></td></tr>';
     list.forEach(function (p, i) {
-      h += '<tr><td class="num mut">' + (i + 1) + '</td><td>' + esc(p.name) + '</td><td class="num mut">' + esc(p.reference) + '</td><td>' + esc(p.customer) + '</td><td class="mut">' + esc(p.plan) + '</td><td class="r num">' + (p.debit ? nf(p.debit, 2) : '') + '</td><td class="r num">' + (p.credit ? nf(p.credit, 2) : '') + '</td><td class="r num">' + nf(p.balance, 2) + '</td></tr>';
+      h += '<tr class="clickable" data-projdetail="' + D.projects.indexOf(p) + '"><td class="num mut">' + (i + 1) + '</td><td>' + esc(p.name) + '</td><td class="num mut">' + esc(p.reference) + '</td><td>' + esc(p.customer) + '</td><td class="mut">' + esc(p.plan) + '</td><td class="r num">' + (p.debit ? nf(p.debit, 2) : '') + '</td><td class="r num">' + (p.credit ? nf(p.credit, 2) : '') + '</td><td class="r num">' + nf(p.balance, 2) + '</td></tr>';
     });
     h += '</tbody><tfoot><tr><td colspan="5">' + T('sum.filtered') + ' · ' + nf(list.length, 0) + ' ' + T('obj.proj') + '</td><td class="r num">' + nf(tD, 2) + '</td><td class="r num">' + nf(tC, 2) + '</td><td class="r num">' + nf(tB, 2) + '</td></tr></tfoot></table></div>';
     return h;
@@ -558,7 +570,7 @@
     h += '<div class="tablewrap"><table><thead><tr><th>#</th><th>' + T('c.code') + '</th><th>' + T('c.name') + '</th><th>' + T('c.type') + '</th><th class="r">' + T('c.moves') + '</th><th class="r">' + T('c.debit') + '</th><th class="r">' + T('c.credit') + '</th><th class="r">' + T('c.bal') + '</th></tr></thead><tbody>';
     list.forEach(function (a, i) {
       var mv = cnt[a.code] || 0;
-      h += '<tr' + (mv ? ' class="clickable"' : '') + ' data-accfilter="' + esc(a.code) + '" data-moves="' + mv + '"><td class="num mut">' + (i + 1) + '</td><td class="num">' + esc(a.code) + '</td><td>' + esc(a.name) + '</td><td class="mut">' + esc(a.type) + '</td><td class="r num">' + (mv ? nf(mv, 0) : '<span class="mut">—</span>') + '</td><td class="r num">' + (a.debit ? nf(a.debit, 2) : '') + '</td><td class="r num">' + (a.credit ? nf(a.credit, 2) : '') + '</td><td class="r num">' + (a.balance ? nf(a.balance, 2) : '') + '</td></tr>';
+      h += '<tr class="clickable" data-accdetail="' + esc(a.code) + '" data-moves="' + mv + '"><td class="num mut">' + (i + 1) + '</td><td class="num">' + esc(a.code) + '</td><td>' + esc(a.name) + '</td><td class="mut">' + esc(a.type) + '</td><td class="r num">' + (mv ? nf(mv, 0) : '<span class="mut">—</span>') + '</td><td class="r num">' + (a.debit ? nf(a.debit, 2) : '') + '</td><td class="r num">' + (a.credit ? nf(a.credit, 2) : '') + '</td><td class="r num">' + (a.balance ? nf(a.balance, 2) : '') + '</td></tr>';
     });
     h += '</tbody><tfoot><tr><td colspan="5">' + T('sum.filtered') + ' · ' + nf(list.length, 0) + ' ' + T('tab.acc') + ' · ' + nf(tN, 0) + ' ' + T('c.moves') + '</td><td class="r num">' + nf(tD, 2) + '</td><td class="r num">' + nf(tC, 2) + '</td><td class="r num">' + nf(tB, 2) + '</td></tr></tfoot></table></div>';
     return h;
@@ -581,7 +593,7 @@
     h += '<div class="tablewrap"><table><thead><tr><th>#</th><th>' + T('c.name') + '</th><th class="r">' + T('c.count') + '</th><th class="r">' + T('c.revenue') + '</th><th class="r">' + T('c.spend') + '</th><th class="r">' + T('c.net') + '</th></tr></thead><tbody>';
     if (!list.length) h += '<tr><td colspan="6"><div class="empty">' + T('noRows') + '</div></td></tr>';
     list.forEach(function (x, i) {
-      h += '<tr class="clickable" data-custfilter="' + x.i + '"><td class="num mut">' + (i + 1) + '</td><td>' + esc(x.name) + '</td><td class="r num">' + nf(x.n, 0) + '</td><td class="r num">' + nf(x.dr, 2) + '</td><td class="r num">' + nf(x.cr, 2) + '</td><td class="r num">' + nf(x.dr - x.cr, 2) + '</td></tr>';
+      h += '<tr class="clickable" data-custdetail="' + x.i + '"><td class="num mut">' + (i + 1) + '</td><td>' + esc(x.name) + '</td><td class="r num">' + nf(x.n, 0) + '</td><td class="r num">' + nf(x.dr, 2) + '</td><td class="r num">' + nf(x.cr, 2) + '</td><td class="r num">' + nf(x.dr - x.cr, 2) + '</td></tr>';
     });
     h += '</tbody><tfoot><tr><td colspan="3">' + T('sum.filtered') + ' · ' + nf(list.length, 0) + '</td><td class="r num">' + nf(tD, 2) + '</td><td class="r num">' + nf(tC, 2) + '</td><td class="r num">' + nf(tD - tC, 2) + '</td></tr></tfoot></table></div>';
     return h;
@@ -770,6 +782,119 @@
     } catch (e) {}
   }
 
+  // ---------------- detail popup ----------------
+  var dstate = { kind: null, key: null, page: 1 }, DPAGE = 50, DCHART = null;
+  function detailScan(kind, key) {
+    var rows = D.tx.rows, out = [];
+    if (kind === 'acc') { for (var i = 0; i < rows.length; i++) if (D.tx.accCodes[rows[i][0]] === key) out.push(i); }
+    else if (kind === 'cust') { for (var j = 0; j < rows.length; j++) if (rows[j][5] === key) out.push(j); }
+    return out;
+  }
+  function dtStat(k, v, color) {
+    return '<div class="stat"><div class="k">' + esc(k) + '</div><div class="v"' + (color ? ' style="color:' + color + '"' : '') + '>' + v + '</div></div>';
+  }
+  function openDetail(kind, key) {
+    dstate = { kind: kind, key: key, page: 1 };
+    var m = $('#detailModal'); if (!m) return;
+    m.classList.add('on');
+    renderDetail();
+  }
+  function closeDetail() {
+    var m = $('#detailModal'); if (m) m.classList.remove('on');
+    if (DCHART) { try { DCHART.dispose(); } catch (e) {} DCHART = null; }
+    var bd = $('#dtBody'); if (bd) bd.innerHTML = '';
+    var ti = $('#dtTitle'); if (ti) ti.textContent = '';
+    var su = $('#dtSub'); if (su) su.textContent = '';
+  }
+  function dtMovementsTable(idxs, mode) {
+    var rows = D.tx.rows, per = DPAGE, page = dstate.page || 1, pages = Math.max(1, Math.ceil(idxs.length / per));
+    if (page > pages) page = pages; dstate.page = page;
+    var start = (page - 1) * per, end = Math.min(idxs.length, start + per);
+    var tD = 0, tC = 0; for (var z = 0; z < idxs.length; z++) { tD += rows[idxs[z]][2]; tC += rows[idxs[z]][3]; }
+    var h = '<div class="card" style="margin-bottom:14px"><h3>' + T('dt.movements') + ' <span class="tag">' + nf(idxs.length, 0) + ' ' + T('dt.entries') + '</span></h3>';
+    if (!idxs.length) { h += '<div class="empty">' + T('dt.nomoves') + '</div></div>'; return h; }
+    h += '<div class="tablewrap" style="max-height:420px"><table><thead><tr><th>' + T('c.date') + '</th>' + (mode === 'cust' ? '<th>' + T('c.acc') + '</th><th>' + T('c.accname') + '</th>' : '') + '<th>' + T('c.desc') + '</th>' + (mode === 'acc' ? '<th>' + T('c.partner') + '</th>' : '') + '<th class="r">' + T('c.debit') + '</th><th class="r">' + T('c.credit') + '</th></tr></thead><tbody>';
+    for (var i = start; i < end; i++) {
+      var r = rows[idxs[i]], a = TXACC[r[0]];
+      h += '<tr><td class="num">' + rowISO(r[1]) + '</td>' + (mode === 'cust' ? '<td class="num">' + esc(a ? a.code : '') + '</td><td>' + esc(a ? a.name : '') + '</td>' : '') + '<td class="mut">' + esc(D.tx.desc[r[4]] || '') + '</td>' + (mode === 'acc' ? '<td>' + esc(PART[r[5]] || '') + '</td>' : '') + '<td class="r num">' + (r[2] ? nf(r[2], 2) : '') + '</td><td class="r num">' + (r[3] ? nf(r[3], 2) : '') + '</td></tr>';
+    }
+    h += '</tbody><tfoot><tr><td colspan="' + (mode === 'cust' ? 4 : 3) + '">' + T('sum.filtered') + '</td><td class="r num">' + nf(tD, 2) + '</td><td class="r num">' + nf(tC, 2) + '</td></tr></tfoot></table></div>';
+    if (pages > 1) h += '<div class="pager"><span class="pg">' + T('dt.page') + ' ' + page + ' / ' + pages + '</span><button class="btn sm" data-dpg="' + (page - 1) + '"' + (page <= 1 ? ' disabled' : '') + '>‹ ' + T('prev') + '</button><button class="btn sm" data-dpg="' + (page + 1) + '"' + (page >= pages ? ' disabled' : '') + '>' + T('next') + ' ›</button></div>';
+    h += '</div>';
+    return h;
+  }
+  function renderDetail() {
+    var kind = dstate.kind, key = dstate.key, body = '', title = '', sub = '', stats = '', chart = '', table = '', actions = '';
+    if (kind === 'proj') {
+      var p = D.projects[key]; if (!p) { closeDetail(); return; }
+      title = p.name; sub = T('dt.proj');
+      stats = dtStat(T('c.debit'), nf(p.debit, 2)) + dtStat(T('c.credit'), nf(p.credit, 2)) + dtStat(T('c.bal'), nf(p.balance, 2), (p.balance || 0) < 0 ? 'var(--neg)' : 'var(--pos)');
+      var bio = '<div class="dtbio">' +
+        (p.reference ? '<div>' + T('dt.ref') + ': <b>' + esc(p.reference) + '</b></div>' : '') +
+        (p.plan ? '<div>' + T('dt.plan') + ': <b>' + esc(p.plan) + '</b></div>' : '') +
+        (p.customer ? '<div>' + T('dt.customer') + ': <b>' + esc(p.customer) + '</b></div>' : '') + '</div>';
+      chart = '<div class="card chartcard" style="margin-bottom:14px"><h3>' + T('dt.summary') + '</h3><div id="dtChart" class="chart sm"></div></div>';
+      table = '<div class="card"><h3>' + T('dt.movements') + '</h3><div class="note" style="margin-top:0">' + T('dt.projNote') + '</div></div>';
+      body = '<div class="dtstats">' + stats + '</div>' + bio + chart + table;
+    } else if (kind === 'acc') {
+      var a = ACCB[key]; if (!a) { closeDetail(); return; }
+      title = a.code + ' · ' + a.name; sub = T('dt.acc') + (a.type ? ' · ' + a.type : '');
+      var idxs = detailScan('acc', key), tD = 0, tC = 0;
+      for (var z = 0; z < idxs.length; z++) { tD += D.tx.rows[idxs[z]][2]; tC += D.tx.rows[idxs[z]][3]; }
+      stats = dtStat(T('c.type'), '<span style="font-size:14px">' + esc(a.type || '—') + '</span>') + dtStat(T('dt.movements'), nf(idxs.length, 0)) + dtStat(T('c.debit'), nf(a.debit == null ? tD : a.debit, 2)) + dtStat(T('c.credit'), nf(a.credit == null ? tC : a.credit, 2)) + dtStat(T('c.bal'), nf(a.balance, 2), (a.balance || 0) < 0 ? 'var(--neg)' : 'var(--pos)');
+      chart = '<div class="card chartcard" style="margin-bottom:14px"><h3>' + T('ch.tbmonth') + '</h3><div id="dtChart" class="chart sm"></div></div>';
+      table = dtMovementsTable(idxs, 'acc');
+      actions = '<button class="btn primary" data-accfilter="' + esc(key) + '">≡ ' + T('dt.openExplorer') + '</button>';
+      body = '<div class="dtstats">' + stats + '</div>' + chart + table;
+    } else if (kind === 'cust') {
+      var name = custName(key); title = name; sub = T('dt.cust');
+      var cidxs = detailScan('cust', key), cD = 0, cC = 0;
+      for (var y = 0; y < cidxs.length; y++) { cD += D.tx.rows[cidxs[y]][2]; cC += D.tx.rows[cidxs[y]][3]; }
+      stats = dtStat(T('dt.movements'), nf(cidxs.length, 0)) + dtStat(T('c.revenue'), nf(cD, 2)) + dtStat(T('c.spend'), nf(cC, 2)) + dtStat(T('c.net'), nf(cD - cC, 2), (cD - cC) < 0 ? 'var(--neg)' : 'var(--pos)');
+      chart = '<div class="card chartcard" style="margin-bottom:14px"><h3>' + T('ch.tbmonth') + '</h3><div id="dtChart" class="chart sm"></div></div>';
+      table = dtMovementsTable(cidxs, 'cust');
+      actions = '<button class="btn primary" data-custfilter="' + key + '">≡ ' + T('dt.openExplorer') + '</button>';
+      body = '<div class="dtstats">' + stats + '</div>' + chart + table;
+    }
+    var ti = $('#dtTitle'), su = $('#dtSub'), bd = $('#dtBody');
+    if (ti) ti.textContent = title || ''; if (su) su.textContent = sub || '';
+    if (bd) bd.innerHTML = body + (actions ? '<div style="display:flex;justify-content:flex-end;margin-top:6px;margin-bottom:4px">' + actions + '</div>' : '');
+    drawDetailChart();
+  }
+  function drawDetailChart() {
+    if (DCHART) { try { DCHART.dispose(); } catch (e) {} DCHART = null; }
+    var el = $('#dtChart'); if (!el || !window.echarts) return;
+    var tv = themeVars();
+    var axis = { axisLabel: { color: tv.muted, fontSize: 11 }, axisLine: { lineStyle: { color: tv.grid } } };
+    if (dstate.kind === 'proj') {
+      var p = D.projects[dstate.key]; if (!p) return;
+      DCHART = echarts.init(el);
+      DCHART.setOption({
+        tooltip: { trigger: 'item', valueFormatter: function (x) { return nf(x, 2); } },
+        legend: { bottom: 0, textStyle: { color: tv.muted, fontSize: 11 } },
+        series: [{ type: 'pie', radius: ['50%', '76%'], center: ['50%', '42%'], label: { color: tv.text, fontSize: 11, formatter: '{b}\n{c}' }, itemStyle: { borderColor: tv.panel, borderWidth: 3 },
+          data: [{ name: T('ch.debit'), value: p.debit || 0, itemStyle: { color: tv.ch[0] } }, { name: T('ch.credit'), value: p.credit || 0, itemStyle: { color: tv.ch[4] } }] }]
+      });
+      return;
+    }
+    var idxs = detailScan(dstate.kind, dstate.key), rows = D.tx.rows, m = rowMonths(), mi = {};
+    MONTHS.forEach(function (mk, i) { mi[mk] = i; });
+    var dr = MONTHS.map(function () { return 0; }), cr = MONTHS.map(function () { return 0; });
+    for (var z = 0; z < idxs.length; z++) { var i = mi[m[idxs[z]]]; if (i == null) continue; dr[i] += rows[idxs[z]][2]; cr[i] += rows[idxs[z]][3]; }
+    DCHART = echarts.init(el);
+    DCHART.setOption({
+      grid: { left: 6, right: 12, top: 30, bottom: 6, containLabel: true },
+      tooltip: { trigger: 'axis', valueFormatter: function (x) { return nf(x, 2); } },
+      legend: { top: 0, textStyle: { color: tv.muted, fontSize: 11 }, data: [T('ch.debit'), T('ch.credit')] },
+      xAxis: Object.assign({ type: 'category', data: MONTHS.map(function (mk) { return mk.slice(5); }) }, axis),
+      yAxis: Object.assign({ type: 'value', splitLine: { lineStyle: { color: tv.grid } } }, axis),
+      series: [
+        { name: T('ch.debit'), type: 'bar', data: dr, barMaxWidth: 18, itemStyle: { color: tv.ch[0], borderRadius: [3, 3, 0, 0] } },
+        { name: T('ch.credit'), type: 'bar', data: cr, barMaxWidth: 18, itemStyle: { color: tv.ch[4], borderRadius: [3, 3, 0, 0] } }
+      ]
+    });
+  }
+
   // ---------------- events ----------------
   function setView(v) { state.view = v; state.f.page = 1; render(); closeSidebar(); }
   function setObj(code) { state.obj = code; state.view = 'obj'; state.f.page = 1; render(); closeSidebar(); }
@@ -788,8 +913,14 @@
       return;
     }
     var krow = t.closest('[data-kpi]'); if (krow) { setKpi(krow.getAttribute('data-kpi')); return; }
-    var accf = t.closest('[data-accfilter]'); if (accf) { state.f.account = accf.getAttribute('data-accfilter') || null; setView('tx'); return; }
-    var custf = t.closest('[data-custfilter]'); if (custf) { state.f.customer = parseInt(custf.getAttribute('data-custfilter'), 10); setView('tx'); return; }
+    // detail popup triggers
+    var pd = t.closest('[data-projdetail]'); if (pd) { openDetail('proj', parseInt(pd.getAttribute('data-projdetail'), 10)); return; }
+    var ad = t.closest('[data-accdetail]'); if (ad) { openDetail('acc', ad.getAttribute('data-accdetail')); return; }
+    var cd = t.closest('[data-custdetail]'); if (cd) { openDetail('cust', parseInt(cd.getAttribute('data-custdetail'), 10)); return; }
+    if (t.id === 'dtClose' || t.id === 'detailModal') { closeDetail(); return; }
+    var dp = t.closest('[data-dpg]'); if (dp && !dp.disabled) { dstate.page = parseInt(dp.getAttribute('data-dpg'), 10); renderDetail(); return; }
+    var accf = t.closest('[data-accfilter]'); if (accf) { closeDetail(); state.f.account = accf.getAttribute('data-accfilter') || null; setView('tx'); return; }
+    var custf = t.closest('[data-custfilter]'); if (custf) { closeDetail(); state.f.customer = parseInt(custf.getAttribute('data-custfilter'), 10); setView('tx'); return; }
     // filter dropdown toggle
     var fbtn = t.closest('.fdrop-btn'); if (fbtn) { var d = fbtn.parentNode; var open = d.classList.contains('open'); document.querySelectorAll('.fdrop.open').forEach(function (x) { x.classList.remove('open'); }); if (!open) d.classList.add('open'); return; }
     var opt = t.closest('.popt'); if (opt) {
@@ -854,7 +985,8 @@
     document.querySelectorAll('button[data-lang]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-lang') === state.lang); });
     document.querySelectorAll('button[data-theme]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-theme') === state.theme); });
     initUpload();
-    var _rz; window.addEventListener('resize', function () { clearTimeout(_rz); _rz = setTimeout(function () { for (var k in CHARTS) { try { CHARTS[k].resize(); } catch (e) {} } }, 150); });
+    var _rz; window.addEventListener('resize', function () { clearTimeout(_rz); _rz = setTimeout(function () { for (var k in CHARTS) { try { CHARTS[k].resize(); } catch (e) {} } if (DCHART) { try { DCHART.resize(); } catch (e) {} } }, 150); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeDetail(); closeSidebar(); } });
     render();
   }
   if (!D) { $('#viewHost').innerHTML = '<div class="empty">No data. Run build_data.js.</div>'; return; }
