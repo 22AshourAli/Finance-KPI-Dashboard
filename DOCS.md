@@ -70,8 +70,18 @@
 - **لا استبدال للصفر:** أي مؤشر ينقصه مدخل يظهر «بيانات مطلوبة» بدل صفر.
 - **الدرجة (0–100):** داخل النطاق = 100؛ أقل من الحد = القيمة/الحد×100؛ أعلى من الحد = الحد/القيمة×100.
 - **الحالة:** لا قيمة → *بيانات مطلوبة*؛ لا هدف رقمي → *بانتظار الهدف*؛ ≥100 *على الهدف*؛ ≥80 *تحتاج متابعة*؛ وإلا *حرجة*.
-- القيود: **34 مؤشرًا من 60 «بيانات مطلوبة»** (لا تتوفر مدخلاتها في أي من الملفات — بيانات حوكمة/موازنة/تخطيط)، ولا يمكن حساب الاتجاهات (تصدير لفترة واحدة).
-- **حالة الحساب بعد الإثراء:** 60 مؤشرًا · **26 محسوبًا** · **13 مُقيَّمًا** · الدرجة الإجمالية **56.5/100** · التوزيع: حرجة 6 · على الهدف 7 · بانتظار الهدف 13 · بيانات مطلوبة 34.
+- القيود: **25 مؤشرًا من 60 «بيانات مطلوبة»** (لا تتوفر مدخلاتها في أي من الملفات — بيانات موازنة/توقع/تدقيق/سياسات/سجل مخاطر/أوقات الإغلاق)، ولا يمكن حساب الاتجاهات (تصدير لفترة واحدة).
+- **حالة الحساب بعد الإثراء:** 60 مؤشرًا · **35 محسوبًا** · **16 مُقيَّمًا** · الدرجة الإجمالية **52.8/100** · التوزيع: حرجة 9 · على الهدف 7 · بانتظار الهدف 19 · بيانات مطلوبة 25.
+- **مؤشرات مُشتقَّقة من الملفات المتوفرة** (قواعد معلنة، وتظهر في مدخلات كل مؤشر بمصدرها الفعلي):
+  - **دورة التحويل النقدي** (F04-K03) = DSO + أيام المخزون − DPO = 31.89 يومًا.
+  - **التدفق النقدي الحر** (F03-K03) = التدفق التشغيلي (64,642.66) − النفقات الرأسمالية (1,191,744.70 من حركة الأصول الثابتة في دفتر الأستاذ) = −1,127,102.04.
+  - **تحويل النقد للمشاريع** (F07-K05) = المحصّل / المفوتر = 199,818,066.73 / 199,933,128.57 = 99.94%.
+  - **التكلفة لكل وحدة إيراد** (F05-K06) = المصروفات / عدد وحدات الإيراد (89 مشروعًا) = 84,218.25.
+  - **تغطية التقارير الإدارية** (F08-K04) = المؤشرات ذات القيمة / المؤشرات المطلوبة = 35/60 = 58.3%.
+  - **تغطية نسب البيانات** (F08-K06) = المدخلات ذات القيمة / إجمالي المدخلات المعيَّنة = 40/76 = 52.6%.
+  - **معدل الحركات غير المعتادة** (F09-K05) = معاملات تتجاوز المتوسط + 3 انحرافات معيارية / إجمالي الحركات = 811/249,377 = 0.33%.
+  - **التعرض المالي للمخاطر** (F10-K01) = الذمم المتأخرة أكثر من 90 يومًا = 115,061.84.
+  - **التعرض التعاقدي** (F10-K05) = المتبقي (الذمم المستحقة) / إجمالي المفوتر = 0.06%.
 
 ### 8) التحليل التشغيلي (`ops`) — من ملفات Odoo الستة
 يُبنى بواسطة `ops_build.js` (يقرأ الملفات الستة من مجلد المشروع). التبويبات:
@@ -159,8 +169,18 @@
 - **No zero substitution:** any KPI missing an input shows "Data Required" instead of zero.
 - **Score (0–100):** inside band = 100; below low = actual/low×100; above high = high/actual×100.
 - **Status:** missing actual → *Data Required*; no numeric target → *Target Pending*; ≥100 *On Target*; ≥80 *Attention*; else *Critical*.
-- Constraints: **34 of 60 KPIs are "Data Required"** (inputs absent from every file — governance/budget/planning), and trends are not possible (single-period export).
-- **Framework status after enrichment:** 60 KPIs · **26 computed** · **13 scored** · overall **56.5/100** · distribution: Critical 6 · On Target 7 · Target Pending 13 · Data Required 34.
+- Constraints: **25 of 60 KPIs are "Data Required"** (inputs absent from every file — budget/forecast/audit/policy/risk-register/closing-time), and trends are not possible (single-period export).
+- **Framework status after enrichment:** 60 KPIs · **35 computed** · **16 scored** · overall **52.8/100** · distribution: Critical 9 · On Target 7 · Target Pending 19 · Data Required 25.
+- **Metrics derived from the available files** (rules stated; each KPI shows its real source in its input list):
+  - **Cash Conversion Cycle** (F04-K03) = DSO + DIO − DPO = 31.89 days.
+  - **Free Cash Flow** (F03-K03) = Operating CF (64,642.66) − Capex (1,191,744.70, from Fixed-Asset movement in the General Ledger) = −1,127,102.04.
+  - **Project Cash Conversion** (F07-K05) = Collected / Invoiced = 199,818,066.73 / 199,933,128.57 = 99.94%.
+  - **Cost per Revenue Unit** (F05-K06) = Expenses / Revenue Units (89 projects) = 84,218.25.
+  - **Management Reporting Coverage** (F08-K04) = KPIs with a value / required KPIs = 35/60 = 58.3%.
+  - **Data Lineage Coverage** (F08-K06) = resolved inputs / total mapped inputs = 40/76 = 52.6%.
+  - **Unusual Transaction Rate** (F09-K05) = transactions beyond mean + 3σ / total transactions = 811/249,377 = 0.33%.
+  - **Risk Exposure** (F10-K01) = receivables overdue > 90 days = 115,061.84.
+  - **Contractual Exposure** (F10-K05) = outstanding (due) / total invoiced = 0.06%.
 
 ### 8) Operational Analytics (`ops`) — from the six Odoo files
 Built by `ops_build.js` (reads the six files from the project folder). Tabs:

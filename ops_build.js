@@ -119,6 +119,13 @@
       extra.Cash_Received_Customers = r2(collected);
       extra.Customer_Concentration = grand ? r6(custs.length ? custs[0].total / grand : 0) : null;
       extra.AR_Total_Outstanding = r2(outstanding);
+      // Project cash conversion: cash collected / amount billed
+      extra.Project_Billing = { value: r2(invoiced), source: 'Customer Invoices', label: 'Project billing (total invoiced)' };
+      extra.Project_Cash_Collected = { value: r2(invoiced - outstanding), source: 'Customer Invoices', label: 'Project cash collected (invoiced less outstanding)' };
+      // Unmitigated contractual exposure = unpaid (outstanding) / total billed
+      extra.Contractual_Exposure = { value: invoiced ? r6(outstanding / invoiced) : null, source: 'Customer Invoices', label: 'Unmitigated (outstanding) / total invoiced' };
+      // Quantified financial risk exposure = receivables more than 90 days overdue
+      extra.Risk_Exposure = { value: r2(high90), source: 'Customer Invoices (AR aging)', label: 'Receivables >90 days overdue' };
     })();
 
     /* ---------------- Sales orders ---------------- */
@@ -298,6 +305,8 @@
       extra.CostCenter_Actual = r2(cost);
       extra.Loss_Making_Projects = lossCount;
       extra.Total_Projects = count;
+      // Cost per Revenue Unit denominator = number of revenue-bearing units (cost-center projects)
+      extra.Revenue_Units = { value: count, source: 'Cost Center Master', label: 'Revenue units (cost-center projects)' };
     })();
 
     /* ---------------- Bank reconciliations ---------------- */

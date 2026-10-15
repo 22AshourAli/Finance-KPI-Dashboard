@@ -163,7 +163,13 @@
       'F03-K06': function () { return div(G('Interest_Expense'), G('PL_Revenue')); },
       'F04-K01': function () { return mul(div(abs(G('BS_Receivables')), G('PL_Revenue')), 365); },
       'F04-K02': function () { return mul(div(G('BS_Payables'), G('PL_Cost_Revenue')), 365); },
-      'F04-K03': function () { return null; },
+      // Cash Conversion Cycle = DSO + Inventory Days - DPO (all from BS + P&L)
+      'F04-K03': function () {
+        var dso = mul(div(abs(G('BS_Receivables')), G('PL_Revenue')), 365);
+        var dio = mul(div(G('BS_Inventory'), G('PL_Cost_Revenue')), 365);
+        var dpo = mul(div(G('BS_Payables'), G('PL_Cost_Revenue')), 365);
+        return add(sub(dso, dpo), dio);
+      },
       'F04-K04': function () { return div(G('Cash_Received_Customers'), abs(G('BS_Receivables'))); },
       'F04-K05': function () { return div(G('AR_Overdue'), abs(G('BS_Receivables'))); },
       'F04-K06': function () { return div(sub(G('BS_Current_Assets'), G('BS_Current_Liabilities')), G('PL_Revenue')); },
@@ -219,11 +225,11 @@
     }
 
     function scoreOf(actual, low, high) {
-      if (actual == null) return null;
+      if (actual == null || !isFinite(actual)) return null;
       var hasL = low != null, hasH = high != null;
       if (!hasL && !hasH) return null;
-      if (hasL && hasH) { if (actual >= low && actual <= high) return 100; if (actual < low) return Math.max(0, actual / low * 100); return Math.max(0, high / actual * 100); }
-      if (hasL) return Math.min(100, actual / low * 100);
+      if (hasL && hasH) { if (actual >= low && actual <= high) return 100; if (actual < low) return low === 0 ? 0 : Math.max(0, actual / low * 100); return Math.max(0, high / actual * 100); }
+      if (hasL) { if (low === 0) return actual >= 0 ? 100 : 0; return Math.min(100, actual / low * 100); }
       // max-only bound (lower-is-better): within/at/below the ceiling scores 100
       if (actual <= high) return 100;
       if (actual <= 0) return 100;
@@ -287,6 +293,34 @@
         inputs: inputs
       });
     }
+
+    // ---- governance coverage KPIs, derived from the register itself ----
+    // Management Reporting Coverage = KPIs with valid data / required KPIs
+    // Data Lineage Coverage         = mapped metrics with a value / total mapped metrics
+    (function () {
+      var totK = 0, readySub = 0;
+      objectives.forEach(function (o) { o.kpis.forEach(function (kp) {
+        totK++;
+        if (kp.actual != null && kp.code !== 'F08-K04' && kp.code !== 'F08-K06') readySub++;
+      }); });
+      var readyM = 0, totM = 0;
+      Object.keys(METRIC).forEach(function (k) { totM++; if (METRIC[k].value != null) readyM++; });
+      function setMetric(k, value, src, lbl) { if (METRIC[k]) { METRIC[k].value = value; METRIC[k].ready = value != null; if (src) METRIC[k].source = src; if (lbl) METRIC[k].label = lbl; } }
+      setMetric('Reports_Covered', readySub + 2, 'Derived (KPI register)', 'KPIs with valid data');
+      setMetric('Reports_Total', totK, 'Derived (KPI register)', 'Total required KPIs');
+      setMetric('Lineage_Covered', readyM, 'Derived (Data Mapping)', 'Metrics with a resolved value');
+      setMetric('Lineage_Total', totM, 'Derived (Data Mapping)', 'Total mapped metrics');
+      objectives.forEach(function (o) { o.kpis.forEach(function (kp) {
+        var raw = null;
+        if (kp.code === 'F08-K04') raw = totK ? (readySub + 2) / totK : null;
+        else if (kp.code === 'F08-K06') raw = totM ? readyM / totM : null;
+        else return;
+        kp.actual = r6(raw);
+        kp.score = raw == null ? null : scoreOf(raw, kp.targetLow, kp.targetHigh);
+        kp.status = raw == null ? 'Data Required' : statusOf(raw, kp.targetLow, kp.targetHigh, kp.score);
+        kp.inputs.forEach(function (inp) { var mk = METRIC[inp.key]; if (mk) { inp.value = r6(mk.value); inp.ready = mk.ready; inp.source = mk.source; inp.label = mk.label; } });
+      }); });
+    })();
 
     var statusCounts = {}, sum = 0, scored = 0, readyCount = 0, totalCount = 0;
     objectives.forEach(function (o) {
@@ -353,6 +387,7 @@
     var firstISO = null, lastISO = null, txCount = 0;
     var cashMove = {}; // month -> net
     var accCodesTouched = {};
+    var faDr = 0, faCr = 0; // period movement on Fixed Assets accounts (for Capex)
 
     var gi0 = findHeaderRow(ggrid, ['date', 'debit']);
     if (gi0 < 0) gi0 = findHeaderRow(ggrid, ['date', 'credit']);
@@ -404,6 +439,7 @@
         var dr = toNum(r[colDr]) || 0, crv = toNum(r[colCr]) || 0;
         var mon = serialToMonth(dv, date1904);
         var t = accType(curCode);
+        if (t === 'Fixed Assets') { faDr += dr; faCr += crv; }
         if (firstISO === null || mon.iso < firstISO) firstISO = mon.iso;
         if (lastISO === null || mon.iso > lastISO) lastISO = mon.iso;
         monthsSet[mon.key] = 1;
@@ -588,10 +624,26 @@
       if (a.balance == null) return;
       if (a.type === 'Expenses' && /فوائد تمويلية|interest expense/i.test(a.name || '')) { interest += a.balance; hasInterest = true; }
     });
-    if (hasInterest) derived.Interest_Expense = r2(interest);
+    if (hasInterest) derived.Interest_Expense = { value: r2(interest), source: 'General Ledger', label: 'Interest / finance expense (GL)' };
     var hasInventory = accountsArr.some(function (a) { return /inventor|مخزون|بضاع/i.test(a.name || ''); });
-    if (!hasInventory) derived.BS_Inventory = 0;
-    derived.Total_Tx = txCount;
+    if (!hasInventory) derived.BS_Inventory = { value: 0, source: 'Chart of Accounts', label: 'No inventory account present' };
+    derived.Total_Tx = { value: txCount, source: 'General Ledger', label: 'GL journal lines' };
+
+    // Capex = net additions to Fixed Assets from GL period movement (debits - credits);
+    // gross additions reconcile to the audited "purchases of property, plant & equipment".
+    if (faDr || faCr) derived.Capex = { value: r2(faDr - faCr), source: 'General Ledger', label: 'Capex - net fixed-asset additions' };
+
+    // Unusual transactions = GL journal lines whose |amount| is a statistical outlier
+    // (>= mean + 3 standard deviations). Total_Tx is the denominator.
+    var amtSum = 0, amtSq = 0, amtN = txRows.length;
+    for (var ti = 0; ti < amtN; ti++) { var av = Math.abs((txRows[ti][2] || 0) - (txRows[ti][3] || 0)); amtSum += av; amtSq += av * av; }
+    if (amtN) {
+      var amtMean = amtSum / amtN, amtVar = amtSq / amtN - amtMean * amtMean, amtSd = amtVar > 0 ? Math.sqrt(amtVar) : 0;
+      var amtThr = amtMean + 3 * amtSd, unusual = 0;
+      for (var tj = 0; tj < amtN; tj++) { if (Math.abs((txRows[tj][2] || 0) - (txRows[tj][3] || 0)) >= amtThr) unusual++; }
+      derived.Unusual_Tx = { value: unusual, source: 'General Ledger', label: 'Outliers >= mean + 3 sd of |amount|' };
+    }
+
     var extraMetrics = Object.assign({}, derived, opts.extra || {});
 
     var model = {
