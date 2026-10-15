@@ -98,7 +98,8 @@
     return { found: found, value: value };
   }
 
-  function buildKPI(XLSX, wb) {
+  function buildKPI(XLSX, wb, extra) {
+    extra = extra || {};
     var kmName = findSheet(wb, ['KPI Master']);
     if (!kmName) return null;
     var km = rows(XLSX, wb, kmName);
@@ -121,6 +122,14 @@
       if (!/^MANUAL/i.test(msrc) && mlabel) {
         var res = lookupLast(XLSX, wb, findSheet(wb, [msrc]), mlabel);
         if (res.found) { missing = false; mval = res.value == null ? 0 : res.value; }
+      }
+      if (missing && extra[mkey] != null && extra[mkey] !== '') {
+        var ex = extra[mkey];
+        if (typeof ex === 'object' && ex.hasOwnProperty('value')) {
+          missing = false; mval = ex.value;
+          if (ex.source) msrc = ex.source;
+          if (ex.label) mlabel = ex.label;
+        } else { missing = false; mval = ex; }
       }
       MV[mkey] = missing ? null : mval;
       METRIC[mkey] = { key: mkey, source: msrc, label: mlabel, value: MV[mkey], ready: !missing };
@@ -215,7 +224,10 @@
       if (!hasL && !hasH) return null;
       if (hasL && hasH) { if (actual >= low && actual <= high) return 100; if (actual < low) return Math.max(0, actual / low * 100); return Math.max(0, high / actual * 100); }
       if (hasL) return Math.min(100, actual / low * 100);
-      return null;
+      // max-only bound (lower-is-better): within/at/below the ceiling scores 100
+      if (actual <= high) return 100;
+      if (actual <= 0) return 100;
+      return Math.max(0, high / actual * 100);
     }
     function statusOf(actual, low, high, score) {
       if (actual == null) return 'Data Required';
@@ -224,6 +236,24 @@
       if (score >= 100) return 'On Target';
       if (score >= 80) return 'Attention';
       return 'Critical';
+    }
+    // derive a numeric target from the free-text target when Target Low/High are blank
+    function parseTarget(text, unit, direction) {
+      if (!text) return null;
+      var m = /(>=|≥|<=|≤)\s*([\d.]+)\s*(%|x)?/i.exec(text);
+      if (m) {
+        var v = parseFloat(m[2]); if (isNaN(v)) return null;
+        if (m[3] === '%') v = v / 100;
+        return (m[1] === '>=' || m[1] === '≥') ? { low: v, high: null } : { low: null, high: v };
+      }
+      var m2 = /([\d.]+)\s*%/i.exec(text);
+      if (m2) {
+        var v2 = parseFloat(m2[1]); if (isNaN(v2)) return null;
+        v2 = v2 / 100;
+        if (direction === 'Higher') return { low: v2, high: null };
+        if (direction === 'Lower') return { low: null, high: v2 };
+      }
+      return null;
     }
 
     // build objectives + KPIs from 'KPI Master'
@@ -234,6 +264,10 @@
       var ocode = str(m[0]);
       if (!byObj[ocode]) { byObj[ocode] = { code: ocode, name: str(m[1]), kpis: [] }; objectives.push(byObj[ocode]); }
       var tgt = TARGET[code] || { low: null, high: null };
+      if (tgt.low == null && tgt.high == null) {
+        var pt = parseTarget(str(m[9]), str(m[6]), str(m[14]));
+        if (pt) tgt = pt;
+      }
       var fn = F[code];
       var rawActual = fn ? fn() : null;
       var actual = r6(rawActual);
@@ -547,6 +581,19 @@
     var idxToList = [];
     Object.keys(accIdx).forEach(function (code) { idxToList[accIdx[code]] = code; });
 
+    // ---------- metrics derived from the base workbook (fed to the KPI engine) ----------
+    var derived = {};
+    var interest = 0, hasInterest = false;
+    accountsArr.forEach(function (a) {
+      if (a.balance == null) return;
+      if (a.type === 'Expenses' && /فوائد تمويلية|interest expense/i.test(a.name || '')) { interest += a.balance; hasInterest = true; }
+    });
+    if (hasInterest) derived.Interest_Expense = r2(interest);
+    var hasInventory = accountsArr.some(function (a) { return /inventor|مخزون|بضاع/i.test(a.name || ''); });
+    if (!hasInventory) derived.BS_Inventory = 0;
+    derived.Total_Tx = txCount;
+    var extraMetrics = Object.assign({}, derived, opts.extra || {});
+
     var model = {
       meta: {
         company: opts.company || (coa[0] ? 'DesignTech Engineering Consultants' : 'Company'),
@@ -563,7 +610,7 @@
       projects: projects,
       revenueStreams: revStreams, expenseGroups: expGroups,
       tx: { accCodes: idxToList, desc: descList, partner: partList, rows: txRows },
-      kpi: buildKPI(XLSX, wb)
+      kpi: buildKPI(XLSX, wb, extraMetrics)
     };
     progress('done', txCount);
     return model;

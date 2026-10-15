@@ -10,7 +10,8 @@
 - **الشركة:** DesignTech Engineering Consultants — **الفترة:** السنة المالية 2025 — **كما في:** 2025-12-31 — **العملة:** SAR.
 - **الأوراق الأساسية الست:** دفتر الأستاذ العام (General Ledger، 249,377 حركة)، الميزانية العمومية (Balance Sheet)، الأرباح والخسائر (P&L)، التدفقات النقدية (Cash Flow)، دليل الحسابات (Chart of Accounts، 443)، الحسابات التحليلية (Analytic Accounts، 164).
 - **أوراق الإطار:** `KPI Master` (60 مؤشر)، `Data Mapping` (76 مفتاح قياس)، `KPI Calculation`، بالإضافة إلى `Executive` و`Finance` و10 لوحات أهداف.
-- يُبنى ملف `data.js` من هذه الأوراق عبر `build_data.js` + `pipeline.js`، ثم تعرضه الواجهة في `app.js`.
+- **6 ملفات تشغيلية إضافية (مصدر التحليل التشغيلي):** `DT2025_Customer_Contract_Data.xlsx` (العملاء + العقود)، `DT2025_VAT_Tax_Compliance.xlsx` (الإقرار الضريبي)، `DT2025_Bank_Reconciliations.xlsx` (المطابقات البنكية)، `DT2025_Procurement_Data_Purchase Order1.xlsx` (المشتريات)، `DT2025_Cost_Center_Master_Data.xlsx` (مراكز التكلفة)، `DT2025_Loans_Repayment_Schedule.xlsx` (القروض).
+- يُبنى ملف `data.js` من هذه الأوراق عبر `build_data.js` + `pipeline.js` + `ops_build.js`، ثم تعرضه الواجهة في `app.js`.
 - كل مفتاح في `Data Mapping` يُطابق من ورقته المصدر بـ**آخر صف** يحمل نفس العنوان (مطابقة `LOOKUP(2,1/...)` في ملف العمل).
 
 ### 2) القوائم (شريط التنقّل الجانبي)
@@ -21,6 +22,7 @@
 | **سجل المؤشرات** `master` | كل المؤشرات الـ60 مع الصيغة والقيمة والهدف والدرجة والحالة (فلترة بالهدف/الحالة) | `KPI Master` + `KPI Calculation` |
 | **خريطة البيانات** `mapping` | الـ76 مفتاحًا: المصدر، الوصف، القيمة، الجاهزية | `Data Mapping` |
 | **الهرم** (هدف ← مؤشر) | عند النقر على هدف تظهر مؤشراته؛ وعند النقر على مؤشر تظهر صفحته التفصيلية (التعريف، التسلسل، المدرج التكراري للدرجة) | محسوب |
+| **التحليل التشغيلي** `ops` | 6 تبويبات: الذمم/التحصيل، المبيعات، المشتريات، الضريبة، مراكز التكلفة، الرقابة والخزينة — انظر القسم 8 | 6 ملفات Odoo التشغيلية |
 | **المستكشف التفصيلي** | تبويبات: **كل الحركات** (249,377)، **المشاريع** (163)، **دليل الحسابات** (442)، **العملاء/الموردون** (899) — انظر القسم 4 | الأوراق الأساسية |
 
 ### 3) القيم الرئيسية ومصدر كل قيمة
@@ -68,7 +70,25 @@
 - **لا استبدال للصفر:** أي مؤشر ينقصه مدخل يظهر «بيانات مطلوبة» بدل صفر.
 - **الدرجة (0–100):** داخل النطاق = 100؛ أقل من الحد = القيمة/الحد×100؛ أعلى من الحد = الحد/القيمة×100.
 - **الحالة:** لا قيمة → *بيانات مطلوبة*؛ لا هدف رقمي → *بانتظار الهدف*؛ ≥100 *على الهدف*؛ ≥80 *تحتاج متابعة*؛ وإلا *حرجة*.
-- القيود: 45 مؤشرًا من 60 «بيانات مطلوبة» (لا تتوفر مدخلاتها في التصدير)، ولا يمكن حساب الاتجاهات (تصدير لفترة واحدة).
+- القيود: **34 مؤشرًا من 60 «بيانات مطلوبة»** (لا تتوفر مدخلاتها في أي من الملفات — بيانات حوكمة/موازنة/تخطيط)، ولا يمكن حساب الاتجاهات (تصدير لفترة واحدة).
+- **حالة الحساب بعد الإثراء:** 60 مؤشرًا · **26 محسوبًا** · **13 مُقيَّمًا** · الدرجة الإجمالية **56.5/100** · التوزيع: حرجة 6 · على الهدف 7 · بانتظار الهدف 13 · بيانات مطلوبة 34.
+
+### 8) التحليل التشغيلي (`ops`) — من ملفات Odoo الستة
+يُبنى بواسطة `ops_build.js` (يقرأ الملفات الستة من مجلد المشروع). التبويبات:
+| التبويب | المحتوى | المصدر |
+| --- | --- | --- |
+| **الذمم والتحصيل** `ar` | مفوتر 199,933,128.57 · محصّل 199,821,465.13 · مستحق/متأخر 115,061.84 · تقادم أعمار الديون · أعلى العملاء (3,973 فاتورة) | Customer Contract Data |
+| **المبيعات** `sales` | 53,097 أمر بيع بإجمالي 245,897,868.15 · مخطط شهري · أعلى المندوبين والعملاء | Sales Orders |
+| **المشتريات** `proc` | 312 أمر شراء · مخطط شهري · أعلى الموردين · جدول الأوامر | Procurement Data |
+| **الضريبة** `vat` | ضريبة المبيعات (مخرجات) 25,724,594.48 · ضريبة المشتريات (مدخلات) 5,388,702.20 · **صافي المستحق 20,335,892.28** · 9,252 سطرًا · مخطط شهري | VAT & Tax Compliance |
+| **مراكز التكلفة** `cc` | 89 مركزًا · إيراد 176,979,336.68 · تكلفة 116,333,628.97 · 31 مشروعًا خاسرًا | Cost Center Master Data |
+| **الرقابة والخزينة** `ctrl` | مطابقة بنكية 100% (4,764/4,764) · تدفقات داخل 521,158,727.92 / خارج 480,195,684.39 · التسهيلات والقروض | Bank Reconciliations + Loans |
+
+- ملاحظة: قسم «التحليل التشغيلي» يعرض **السنة المالية كاملة** (2025) دون فلتر فترة (الفلترة متاحة في المستكشف).
+
+### 9) اللغة والتسمية
+- الواجهة تدعم **العربية والإنجليزية** بالكامل؛ أسماء **الأهداف (F01–F10)** و**المؤشرات الستين** مُعرَّبة وتظهر عربيةً في الوضع العربي وإنجليزيةً في الوضع الإنجليزي.
+- أسماء الأطراف/الحسابات/المشاريع (بيانات المصدر) تبقى بحروفها الأصلية في الوضعين.
 
 ---
 
@@ -79,7 +99,8 @@
 - **Company:** DesignTech Engineering Consultants — **Period:** FY 2025 — **As of:** 2025-12-31 — **Currency:** SAR.
 - **Six base sheets:** General Ledger (249,377 rows), Balance Sheet, Profit & Loss, Cash Flow, Chart of Accounts (443), Analytic Accounts (164).
 - **Framework sheets:** `KPI Master` (60 KPIs), `Data Mapping` (76 metric keys), `KPI Calculation`, plus `Executive`/`Finance` and 10 objective dashboards.
-- `data.js` is built from these sheets by `build_data.js` + `pipeline.js` and rendered by `app.js`.
+- **Six extra operational files (source of Operational Analytics):** `DT2025_Customer_Contract_Data.xlsx` (customers + contracts), `DT2025_VAT_Tax_Compliance.xlsx`, `DT2025_Bank_Reconciliations.xlsx`, `DT2025_Procurement_Data_Purchase Order1.xlsx`, `DT2025_Cost_Center_Master_Data.xlsx`, `DT2025_Loans_Repayment_Schedule.xlsx`.
+- `data.js` is built from these sheets by `build_data.js` + `pipeline.js` + `ops_build.js` and rendered by `app.js`.
 - Each `Data Mapping` metric resolves from its source sheet by **label, taking the LAST matching row** (the workbook uses `LOOKUP(2,1/...)` = last match).
 
 ### 2) Menus (sidebar)
@@ -90,6 +111,7 @@
 | **KPI Master** `master` | All 60 KPIs with formula, actual, target, score, status (filter by objective/status) | `KPI Master` + `KPI Calculation` |
 | **Data Mapping** `mapping` | The 76 keys: source, label, value, readiness | `Data Mapping` |
 | **Hierarchy** (objective → KPI) | Click an objective to see its KPIs; click a KPI for its detail page (definition, lineage, score gauge) | Computed |
+| **Operational Analytics** `ops` | 6 tabs: AR/Collections, Sales, Procurement, VAT, Cost Centers, Control & Treasury — see §8 | 6 Odoo operational files |
 | **Detailed Explorer** | Tabs: **All Transactions** (249,377), **Projects** (163), **Chart of Accounts** (442), **Customers/Vendors** (899) — see §4 | Base sheets |
 
 ### 3) Key values and their sources
@@ -137,4 +159,22 @@
 - **No zero substitution:** any KPI missing an input shows "Data Required" instead of zero.
 - **Score (0–100):** inside band = 100; below low = actual/low×100; above high = high/actual×100.
 - **Status:** missing actual → *Data Required*; no numeric target → *Target Pending*; ≥100 *On Target*; ≥80 *Attention*; else *Critical*.
-- Constraints: 45 of 60 KPIs are "Data Required" (inputs absent from the export); trends are not possible (single-period export).
+- Constraints: **34 of 60 KPIs are "Data Required"** (inputs absent from every file — governance/budget/planning), and trends are not possible (single-period export).
+- **Framework status after enrichment:** 60 KPIs · **26 computed** · **13 scored** · overall **56.5/100** · distribution: Critical 6 · On Target 7 · Target Pending 13 · Data Required 34.
+
+### 8) Operational Analytics (`ops`) — from the six Odoo files
+Built by `ops_build.js` (reads the six files from the project folder). Tabs:
+| Tab | Content | Source |
+| --- | --- | --- |
+| **AR & Collections** `ar` | Invoiced 199,933,128.57 · collected 199,821,465.13 · outstanding/overdue 115,061.84 · aging · top customers (3,973 invoices) | Customer Contract Data |
+| **Sales** `sales` | 53,097 orders totalling 245,897,868.15 · monthly chart · top salespeople & customers | Sales Orders |
+| **Procurement** `proc` | 312 purchase orders · monthly chart · top vendors · orders table | Procurement Data |
+| **VAT** `vat` | Output VAT 25,724,594.48 · input VAT 5,388,702.20 · **net payable 20,335,892.28** · 9,252 lines · monthly chart | VAT & Tax Compliance |
+| **Cost Centers** `cc` | 89 centers · revenue 176,979,336.68 · cost 116,333,628.97 · 31 loss-making projects | Cost Center Master Data |
+| **Control & Treasury** `ctrl` | 100% bank reconciliation (4,764/4,764) · inflows 521,158,727.92 / outflows 480,195,684.39 · facilities & loans | Bank Reconciliations + Loans |
+
+- Note: the Operational Analytics section shows the **full FY 2025** (no period filter; period filtering lives in the Explorer).
+
+### 9) Language & naming
+- The UI is fully **bilingual (Arabic/English)**; the **objective (F01–F10)** and **all 60 KPI** names are translated and render Arabic in Arabic mode and English in English mode.
+- Source-data names (parties, accounts, projects) stay in their original script in both modes.

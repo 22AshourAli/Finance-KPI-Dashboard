@@ -63,7 +63,26 @@
       'dt.nomoves': 'لا توجد حركات مسجّلة لهذا العنصر',
       'dt.projNote': 'لا يتضمّن تصدير دفتر الأستاذ وسم المشروع (الحساب التحليلي)، لذلك تُعرض إجماليات المشروع (مدين / دائن / رصيد) فقط دون سطور الحركات.',
       'dt.openExplorer': 'فتح الحركات في المستكشف', 'dt.customer': 'العميل',
-      'dt.plan': 'الخطة', 'dt.ref': 'المرجع', 'dt.page': 'صفحة', 'dt.entries': 'حركة'
+      'dt.plan': 'الخطة', 'dt.ref': 'المرجع', 'dt.page': 'صفحة', 'dt.entries': 'حركة',
+      'grp.ops': 'التحليل التشغيلي', 'nav.ops': 'التحليل التشغيلي',
+      'ops.title': 'التحليل التشغيلي المتقدم', 'ops.sub': 'تحليلات الذمم والمبيعات والمشتريات والضريبة ومراكز التكلفة والرقابة — مستخرجة من بيانات 2025 التشغيلية',
+      'ops.none': 'لا تتوفر بيانات تشغيلية في الملف الحالي.',
+      'ops.asof': 'كما في', 'ops.records': 'سجل',
+      'op.ar': 'الذمم والتحصيل', 'op.sales': 'المبيعات', 'op.proc': 'المشتريات', 'op.vat': 'الضريبة', 'op.cc': 'مراكز التكلفة', 'op.ctrl': 'الرقابة والخزينة',
+      'ops.ar.invoiced': 'إجمالي المفوتر', 'ops.ar.collected': 'المحصّل', 'ops.ar.outstanding': 'الرصيد المستحق', 'ops.ar.overdue': 'المتأخر', 'ops.ar.high90': 'أكثر من 90 يوماً', 'ops.ar.count': 'عدد الفواتير',
+      'ops.ar.topc': 'أعلى العملاء', 'ops.ar.chMonth': 'المفوتر والمحصّل شهرياً', 'ops.ar.chAging': 'أعمار الديون المستحقة',
+      'ops.sales.count': 'أوامر البيع', 'ops.sales.total': 'قيمة الأوامر', 'ops.sales.avg': 'متوسط الأمر', 'ops.sales.customers': 'عدد العملاء', 'ops.sales.people': 'عدد المندوبين',
+      'ops.sales.chMonth': 'المبيعات شهرياً', 'ops.sales.chPeople': 'أعلى المندوبين', 'ops.sales.chCust': 'أعلى العملاء', 'ops.sales.byPeople': 'المبيعات حسب المندوب',
+      'ops.proc.count': 'أوامر الشراء', 'ops.proc.total': 'قيمة الشراء', 'ops.proc.net': 'غير شامل الضريبة', 'ops.proc.tax': 'الضريبة',
+      'ops.proc.chMonth': 'المشتريات شهرياً', 'ops.proc.chVendor': 'أعلى الموردين', 'ops.proc.list': 'أوامر الشراء',
+      'ops.vat.sales': 'ضريبة المبيعات', 'ops.vat.purch': 'ضريبة المشتريات', 'ops.vat.net': 'صافي الضريبة', 'ops.vat.lines': 'عدد السطور',
+      'ops.vat.chMonth': 'الضريبة الشهرية', 'ops.vat.chOrig': 'التوزيع حسب المنشأ', 'ops.vat.byOrig': 'الضريبة حسب المنشأ',
+      'ops.cc.revenue': 'الإيرادات', 'ops.cc.cost': 'التكاليف', 'ops.cc.net': 'الصافي', 'ops.cc.loss': 'مراكز خاسرة', 'ops.cc.count': 'عدد المراكز',
+      'ops.cc.chTop': 'أعلى المراكز بالإيراد', 'ops.cc.chNet': 'صافي المراكز', 'ops.cc.list': 'مراكز التكلفة',
+      'ops.ctrl.rate': 'نسبة التسوية', 'ops.ctrl.recon': 'سطور مطابقة', 'ops.ctrl.unrec': 'غير مطابقة', 'ops.ctrl.inflow': 'التدفقات الداخلة', 'ops.ctrl.outflow': 'التدفقات الخارجة',
+      'ops.ctrl.banks': 'التسويات البنكية', 'ops.ctrl.loans': 'القروض والتمويل', 'ops.ctrl.chBank': 'حركة البنوك شهرياً', 'ops.ctrl.emp': 'القروض الموظفية',
+      'ops.loan.account': 'الحساب', 'ops.loan.opening': 'افتتاحي', 'ops.loan.closing': 'ختامي', 'ops.loan.movement': 'الحركة', 'ops.loan.amount': 'مبلغ القرض', 'ops.loan.paid': 'المدفوع', 'ops.loan.balance': 'المتبقي',
+      'c.total': 'الإجمالي', 'c.outstanding': 'المستحق', 'c.orders': 'الأوامر', 'c.salesperson': 'المندوب', 'c.vendor': 'المورد', 'c.confirm': 'الاعتماد', 'c.deadline': 'الموعد', 'c.status': 'الحالة', 'c.billing': 'الفوترة', 'c.origin': 'المنشأ', 'c.base': 'الوعاء', 'c.amount': 'المبلغ', 'c.lines': 'السطور', 'c.inflows': 'داخل', 'c.outflows': 'خارج', 'c.reconciled': 'مطابق', 'c.unreconciled': 'غير مطابق', 'c.journal': 'الدفتر'
     },
     en: {
       'app.title': 'Financial KPI Dashboard', 'app.sub': 'DesignTech Engineering Consultants',
@@ -122,14 +141,64 @@
       'dt.nomoves': 'No transactions recorded for this item',
       'dt.projNote': 'The General Ledger export does not tag rows with the project (analytic account), so only the project totals (debit / credit / balance) are shown, without line-level movements.',
       'dt.openExplorer': 'Open movements in explorer', 'dt.customer': 'Customer',
-      'dt.plan': 'Plan', 'dt.ref': 'Reference', 'dt.page': 'Page', 'dt.entries': 'entries'
+      'dt.plan': 'Plan', 'dt.ref': 'Reference', 'dt.page': 'Page', 'dt.entries': 'entries',
+      'grp.ops': 'Operational Analytics', 'nav.ops': 'Operational Analytics',
+      'ops.title': 'Advanced Operational Analytics', 'ops.sub': 'Receivables, sales, procurement, tax, cost-center and control analytics — extracted from the 2025 operational data',
+      'ops.none': 'No operational data is available in the current file.',
+      'ops.asof': 'As of', 'ops.records': 'records',
+      'op.ar': 'Receivables & Collections', 'op.sales': 'Sales', 'op.proc': 'Procurement', 'op.vat': 'Tax', 'op.cc': 'Cost Centers', 'op.ctrl': 'Controls & Treasury',
+      'ops.ar.invoiced': 'Total Invoiced', 'ops.ar.collected': 'Collected', 'ops.ar.outstanding': 'Outstanding', 'ops.ar.overdue': 'Overdue', 'ops.ar.high90': 'Over 90 days', 'ops.ar.count': 'Invoices',
+      'ops.ar.topc': 'Top Customers', 'ops.ar.chMonth': 'Invoiced & Collected by Month', 'ops.ar.chAging': 'Overdue Aging',
+      'ops.sales.count': 'Sales Orders', 'ops.sales.total': 'Orders Value', 'ops.sales.avg': 'Avg Order', 'ops.sales.customers': 'Customers', 'ops.sales.people': 'Salespersons',
+      'ops.sales.chMonth': 'Sales by Month', 'ops.sales.chPeople': 'Top Salespersons', 'ops.sales.chCust': 'Top Customers', 'ops.sales.byPeople': 'Sales by Salesperson',
+      'ops.proc.count': 'Purchase Orders', 'ops.proc.total': 'Purchase Value', 'ops.proc.net': 'Net of Tax', 'ops.proc.tax': 'Tax',
+      'ops.proc.chMonth': 'Purchases by Month', 'ops.proc.chVendor': 'Top Vendors', 'ops.proc.list': 'Purchase Orders',
+      'ops.vat.sales': 'Sales VAT', 'ops.vat.purch': 'Purchases VAT', 'ops.vat.net': 'Net VAT', 'ops.vat.lines': 'Tax Lines',
+      'ops.vat.chMonth': 'Monthly VAT', 'ops.vat.chOrig': 'By Originator', 'ops.vat.byOrig': 'VAT by Originator',
+      'ops.cc.revenue': 'Revenue', 'ops.cc.cost': 'Costs', 'ops.cc.net': 'Net', 'ops.cc.loss': 'Loss-Making', 'ops.cc.count': 'Cost Centers',
+      'ops.cc.chTop': 'Top Centers by Revenue', 'ops.cc.chNet': 'Center Net', 'ops.cc.list': 'Cost Centers',
+      'ops.ctrl.rate': 'Reconciliation Rate', 'ops.ctrl.recon': 'Reconciled', 'ops.ctrl.unrec': 'Unreconciled', 'ops.ctrl.inflow': 'Inflows', 'ops.ctrl.outflow': 'Outflows',
+      'ops.ctrl.banks': 'Bank Reconciliations', 'ops.ctrl.loans': 'Loans & Facilities', 'ops.ctrl.chBank': 'Bank Flows by Month', 'ops.ctrl.emp': 'Employee Loans',
+      'ops.loan.account': 'Account', 'ops.loan.opening': 'Opening', 'ops.loan.closing': 'Closing', 'ops.loan.movement': 'Movement', 'ops.loan.amount': 'Loan Amount', 'ops.loan.paid': 'Paid', 'ops.loan.balance': 'Remaining',
+      'c.total': 'Total', 'c.outstanding': 'Outstanding', 'c.orders': 'Orders', 'c.salesperson': 'Salesperson', 'c.vendor': 'Vendor', 'c.confirm': 'Confirmed', 'c.deadline': 'Deadline', 'c.status': 'Status', 'c.billing': 'Billing', 'c.origin': 'Originator', 'c.base': 'Base', 'c.amount': 'Amount', 'c.lines': 'Lines', 'c.inflows': 'Inflows', 'c.outflows': 'Outflows', 'c.reconciled': 'Reconciled', 'c.unreconciled': 'Unreconciled', 'c.journal': 'Journal'
     }
   };
   function T(k) { var L = I18N[state.lang] || I18N.ar; return L[k] != null ? L[k] : k; }
 
+  // ---------------- bilingual names (objectives + KPIs) ----------------
+  var OBJNAME_AR = {
+    F01: 'الاستدامة المالية', F02: 'إدارة الربحية', F03: 'إدارة النقدية والسيولة', F04: 'إدارة رأس المال العامل',
+    F05: 'إدارة التكاليف', F06: 'الموازنة والتخطيط المالي', F07: 'الرقابة المالية على المشاريع',
+    F08: 'التقارير المالية ودعم القرار', F09: 'الحوكمة والالتزام المالي', F10: 'إدارة المخاطر المالية'
+  };
+  var KPINAME_AR = {
+    'F01-K01': 'نسبة التداول', 'F01-K02': 'نسبة السيولة السريعة', 'F01-K03': 'هامش التدفق النقدي التشغيلي',
+    'F01-K04': 'تغطية الاحتياطي النقدي', 'F01-K05': 'المطلوبات إلى حقوق الملكية', 'F01-K06': 'تغطية الفوائد',
+    'F02-K01': 'نمو الإيرادات', 'F02-K02': 'هامش الربح الإجمالي', 'F02-K03': 'هامش الربح قبل الفوائد والضرائب والإهلاك',
+    'F02-K04': 'هامش الربح الصافي', 'F02-K05': 'العائد على رأس المال المستثمر', 'F02-K06': 'المصاريف العمومية إلى الإيرادات',
+    'F03-K01': 'الرصيد النقدي', 'F03-K02': 'التدفق النقدي التشغيلي', 'F03-K03': 'التدفق النقدي الحر',
+    'F03-K04': 'دقة توقعات النقدية', 'F03-K05': 'معدل اختراق الحد الأدنى للنقدية', 'F03-K06': 'نسبة تكلفة التمويل',
+    'F04-K01': 'فترة تحصيل الذمم المدينة', 'F04-K02': 'فترة سداد الذمم الدائنة', 'F04-K03': 'دورة التحويل النقدي',
+    'F04-K04': 'معدل التحصيل', 'F04-K05': 'نسبة الذمم المتأخرة', 'F04-K06': 'رأس المال العامل إلى الإيرادات',
+    'F05-K01': 'انحراف الموازنة', 'F05-K02': 'انحراف مراكز التكلفة', 'F05-K03': 'نسبة التكلفة إلى الإيراد',
+    'F05-K04': 'معدل وفورات المشتريات', 'F05-K05': 'نسبة التكاليف غير الموزعة', 'F05-K06': 'التكلفة لكل وحدة إيراد',
+    'F06-K01': 'التزام إعداد الموازنة بالتوقيت', 'F06-K02': 'دقة التوقعات', 'F06-K03': 'تغطية الموازنة',
+    'F06-K04': 'الالتزام بتحديث التوقعات', 'F06-K05': 'تغطية تخطيط السيناريوهات', 'F06-K06': 'معدل تفسير الفعلي مقابل المخطط',
+    'F07-K01': 'هامش الربح الإجمالي للمشروع', 'F07-K02': 'انحراف تكلفة المشروع', 'F07-K03': 'انحراف التقدير عند الإنجاز',
+    'F07-K04': 'دقة تكلفة الإتمام', 'F07-K05': 'التحويل النقدي للمشروع', 'F07-K06': 'نسبة المشاريع الخاسرة',
+    'F08-K01': 'أيام الإقفال الشهري', 'F08-K02': 'التزام التقارير بالتوقيت', 'F08-K03': 'دقة التقارير',
+    'F08-K04': 'تغطية تقارير الإدارة', 'F08-K05': 'سرعة إنجاز دعم القرار', 'F08-K06': 'تغطية تتبع مصادر البيانات',
+    'F09-K01': 'اكتمال المطابقات', 'F09-K02': 'معدل الالتزام بالضوابط', 'F09-K03': 'إغلاق ملاحظات التدقيق',
+    'F09-K04': 'الالتزام بالسياسات المالية', 'F09-K05': 'معدل الحركات غير الاعتيادية', 'F09-K06': 'التزام تقديم الإقرار الضريبي',
+    'F10-K01': 'التعرض للمخاطر المالية', 'F10-K02': 'التعرض للذمم عالية المخاطر', 'F10-K03': 'تغطية ضغط السيولة',
+    'F10-K04': 'مخاطر تركّز العملاء', 'F10-K05': 'التعرض التعاقدي', 'F10-K06': 'إغلاق إجراءات المخاطر'
+  };
+  function oName(o) { return (state.lang === 'ar' && o && OBJNAME_AR[o.code]) ? OBJNAME_AR[o.code] : (o ? o.name : ''); }
+  function kName(k) { return (state.lang === 'ar' && k && KPINAME_AR[k.code]) ? KPINAME_AR[k.code] : (k ? k.name : ''); }
+
   // ---------------- state ----------------
   var state = {
-    lang: 'ar', theme: 'dark', view: 'exec', obj: null, kpi: null,
+    lang: 'ar', theme: 'dark', view: 'exec', obj: null, kpi: null, op: 'ar',
     f: { period: 'all', account: null, customer: null, type: null, mobj: null, mstat: null, page: 1 }, txCache: null
   };
   (function () {
@@ -267,7 +336,7 @@
   function accountItems() { var a = [{ v: null, label: T('f.all') }]; accountsList().forEach(function (x) { a.push({ v: x.code, label: x.code + ' · ' + x.name }); }); return a; }
   function customerItems() { var a = [{ v: null, label: T('f.all') }]; customers().forEach(function (c) { a.push({ v: c.i, label: c.name }); }); return a; }
   function typeItems() { return [{ v: null, label: T('f.all') }].concat(accTypes().map(function (t) { return { v: t, label: t }; })); }
-  function objectiveFilterItems() { return [{ v: null, label: T('f.all') }].concat(KO.map(function (o) { return { v: o.code, label: o.code + ' · ' + o.name }; })); }
+  function objectiveFilterItems() { return [{ v: null, label: T('f.all') }].concat(KO.map(function (o) { return { v: o.code, label: o.code + ' · ' + oName(o) }; })); }
   function statusItems() { return [{ v: null, label: T('f.all') }].concat(['On Target', 'Attention', 'Critical', 'Target Pending', 'Data Required'].map(function (s) { return { v: s, label: stLabel(s) }; })); }
 
   function filterBar() {
@@ -289,7 +358,7 @@
     if (state.view === 'tx' && f.account != null) c.push(chip('account', ACCB[f.account] ? (ACCB[f.account].code + ' · ' + ACCB[f.account].name) : f.account));
     if ((state.view === 'tx' || state.view === 'proj') && f.customer != null) c.push(chip('customer', custName(f.customer)));
     if (state.view === 'acc' && f.type != null) c.push(chip('type', f.type));
-    if (state.view === 'master' && f.mobj != null) c.push(chip('mobj', OBJ[f.mobj] ? (f.mobj + ' · ' + OBJ[f.mobj].name) : f.mobj));
+      if (state.view === 'master' && f.mobj != null) c.push(chip('mobj', OBJ[f.mobj] ? (f.mobj + ' · ' + oName(OBJ[f.mobj])) : f.mobj));
     if (state.view === 'master' && f.mstat != null) c.push(chip('mstat', stLabel(f.mstat)));
     return c.join('');
   }
@@ -303,11 +372,13 @@
     o += '<div class="grp">' + T('grp.obj') + '</div>';
     KO.forEach(function (obj) {
       var s = obj.avgScore == null ? '—' : nf(obj.avgScore, 1);
-      o += '<button data-nav="obj" data-obj="' + obj.code + '" class="' + (state.view === 'obj' && state.obj === obj.code ? 'on' : '') + '"><span class="ic">◈</span><span>' + esc(obj.code + ' · ' + obj.name) + '</span><span class="nx">' + s + '</span></button>';
+      o += '<button data-nav="obj" data-obj="' + obj.code + '" class="' + (state.view === 'obj' && state.obj === obj.code ? 'on' : '') + '"><span class="ic">◈</span><span>' + esc(obj.code + ' · ' + oName(obj)) + '</span><span class="nx">' + s + '</span></button>';
     });
     o += '<div class="grp">' + T('grp.ref') + '</div>';
     o += navBtn('master', '◆', T('nav.master'));
     o += navBtn('mapping', '⇄', T('nav.mapping'));
+    o += '<div class="grp">' + T('grp.ops') + '</div>';
+    o += navBtn('ops', '❖', T('nav.ops'));
     o += '<div class="grp">' + T('grp.exp') + '</div>';
     o += navBtn('tx', '≡', T('nav.tx'));
     o += navBtn('proj', '◧', T('nav.proj'));
@@ -333,7 +404,7 @@
     KO.forEach(function (o) {
       var st = objStatus(o), cc = (o.counts && o.counts.Critical) || 0, ac = (o.counts && o.counts.Attention) || 0;
       h += '<tr class="clickable" data-nav="obj" data-obj="' + o.code + '">' +
-        '<td class="num">' + o.code + '</td><td>' + esc(o.name) + '</td>' +
+        '<td class="num">' + o.code + '</td><td>' + esc(oName(o)) + '</td>' +
         '<td class="r">' + scoreBar(o.avgScore) + '</td>' +
         '<td>' + (cc ? '<span class="kstat" style="color:var(--neg)">' + cc + '</span> ' : '') + (ac ? '<span class="kstat" style="color:var(--warn)">' + ac + '</span>' : (cc ? '' : '<span class="mut">0</span>')) + '</td>' +
         '<td>' + stPill(st) + '</td>' +
@@ -384,7 +455,7 @@
     h += '<div class="tablewrap"><table><thead><tr><th>' + T('tbl.obj') + '</th><th>' + T('tbl.name') + '</th><th class="r">' + T('tbl.scoreobj') + '</th><th>' + T('tbl.exc') + '</th><th>' + T('tbl.status') + '</th><th>' + T('drill.obj') + '</th><th>' + T('tbl.action') + '</th></tr></thead><tbody>';
     KO.forEach(function (o) {
       var st = objStatus(o), cc = (o.counts && o.counts.Critical) || 0, ac = (o.counts && o.counts.Attention) || 0;
-      h += '<tr class="clickable" data-nav="obj" data-obj="' + o.code + '"><td class="num">' + o.code + '</td><td>' + esc(o.name) + '</td><td class="r">' + scoreBar(o.avgScore) + '</td>' +
+      h += '<tr class="clickable" data-nav="obj" data-obj="' + o.code + '"><td class="num">' + o.code + '</td><td>' + esc(oName(o)) + '</td><td class="r">' + scoreBar(o.avgScore) + '</td>' +
         '<td>' + (cc ? '<span class="kstat" style="color:var(--neg)">' + cc + '</span> ' : '') + (ac ? '<span class="kstat" style="color:var(--warn)">' + ac + '</span>' : (cc ? '' : '<span class="mut">0</span>')) + '</td>' +
         '<td>' + stPill(st) + '</td><td>' + esc(o.code) + ' Dashboard</td><td class="mut">' + T('review.obj') + '</td></tr>';
     });
@@ -395,8 +466,8 @@
 
   function renderObj() {
     var o = OBJ[state.obj]; if (!o) return renderExec();
-    var h = crumb([{ nav: 'obj', obj: o.code, label: o.code + ' · ' + o.name }]);
-    h += viewHead(o.code + ' | ' + o.name, T('avg.score') + ': ' + (o.avgScore == null ? '—' : nf(o.avgScore, 1)) + ' · ' + T('kpi.count') + ': ' + o.kpis.length);
+    var h = crumb([{ nav: 'obj', obj: o.code, label: o.code + ' · ' + oName(o) }]);
+    h += viewHead(o.code + ' | ' + oName(o), T('avg.score') + ': ' + (o.avgScore == null ? '—' : nf(o.avgScore, 1)) + ' · ' + T('kpi.count') + ': ' + o.kpis.length);
     var cc = (o.counts && o.counts.Critical) || 0, ac = (o.counts && o.counts.Attention) || 0, drc = (o.counts && o.counts['Data Required']) || 0, pd = (o.counts && o.counts['Target Pending']) || 0;
     h += '<div class="grid kpis" style="margin-bottom:16px">';
     h += scoreCard(T('avg.score'), (o.avgScore == null ? '—' : nf(o.avgScore, 1) + '<small> / 100</small>'), stPill(objStatus(o)), null);
@@ -407,7 +478,7 @@
     h += '</div>';
     h += '<div class="tablewrap"><table><thead><tr><th>' + T('tbl.kpicode') + '</th><th>' + T('tbl.kpi') + '</th><th class="r">' + T('tbl.actual') + '</th><th>' + T('tbl.score') + '</th><th>' + T('tbl.status') + '</th><th>' + T('tbl.target') + '</th><th>' + T('tbl.source') + '</th></tr></thead><tbody>';
     o.kpis.forEach(function (kp) {
-      h += '<tr class="krow" data-kpi="' + kp.code + '"><td class="num">' + kp.code + '</td><td>' + esc(kp.name) + '</td><td class="r num">' + kpiVal(kp) + '</td><td>' + scoreBar(kp.score) + '</td><td>' + stPill(kp.status) + '</td><td class="num">' + esc(kpiTarget(kp)) + '</td><td class="mut">' + esc(kp.source) + '</td></tr>';
+      h += '<tr class="krow" data-kpi="' + kp.code + '"><td class="num">' + kp.code + '</td><td>' + esc(kName(kp)) + '</td><td class="r num">' + kpiVal(kp) + '</td><td>' + scoreBar(kp.score) + '</td><td>' + stPill(kp.status) + '</td><td class="num">' + esc(kpiTarget(kp)) + '</td><td class="mut">' + esc(kp.source) + '</td></tr>';
     });
     return h + '</tbody></table></div>';
   }
@@ -436,7 +507,7 @@
     h += '<div class="tablewrap"><table><thead><tr><th>' + T('tbl.kpicode') + '</th><th>' + T('tbl.kpi') + '</th><th>' + T('tbl.obj') + '</th><th>' + T('def.formula') + '</th><th class="r">' + T('kpi.actual') + '</th><th>' + T('kpi.target') + '</th><th>' + T('tbl.score') + '</th><th>' + T('tbl.status') + '</th></tr></thead><tbody>';
     if (!list.length) h += '<tr><td colspan="8"><div class="empty">' + T('noRows') + '</div></td></tr>';
     list.forEach(function (kp) {
-      h += '<tr class="krow" data-kpi="' + kp.code + '"><td class="num">' + kp.code + '</td><td>' + esc(kp.name) + '</td><td class="num mut">' + kp._obj + '</td><td class="mut">' + esc(kp.formula) + '</td><td class="r num">' + kpiVal(kp) + '</td><td class="num">' + esc(kpiTarget(kp)) + '</td><td>' + scoreBar(kp.score) + '</td><td>' + stPill(kp.status) + '</td></tr>';
+      h += '<tr class="krow" data-kpi="' + kp.code + '"><td class="num">' + kp.code + '</td><td>' + esc(kName(kp)) + '</td><td class="num mut">' + kp._obj + '</td><td class="mut">' + esc(kp.formula) + '</td><td class="r num">' + kpiVal(kp) + '</td><td class="num">' + esc(kpiTarget(kp)) + '</td><td>' + scoreBar(kp.score) + '</td><td>' + stPill(kp.status) + '</td></tr>';
     });
     h += '</tbody><tfoot><tr><td colspan="8">' + T('sum.filtered') + ' · ' + nf(list.length, 0) + ' / ' + SUMMARY.total + '</td></tr></tfoot></table></div>';
     return h;
@@ -464,8 +535,8 @@
   function renderKpi() {
     var kp = KPI[state.kpi]; if (!kp) return renderExec();
     var o = OBJ[kp._obj];
-    var h = crumb([{ nav: 'obj', obj: kp._obj, label: kp._obj + ' · ' + kp._objName }, { label: kp.code }]);
-    h += viewHead(kp.code + ' · ' + kp.name, kp._obj + ' | ' + kp._objName);
+    var h = crumb([{ nav: 'obj', obj: kp._obj, label: kp._obj + ' · ' + (OBJ[kp._obj] ? oName(OBJ[kp._obj]) : kp._objName) }, { label: kp.code }]);
+    h += viewHead(kp.code + ' · ' + kName(kp), kp._obj + ' | ' + (OBJ[kp._obj] ? oName(OBJ[kp._obj]) : kp._objName));
     h += '<div class="statgrid" style="margin-bottom:16px">';
     h += '<div class="stat"><div class="k">' + T('kpi.actual') + '</div><div class="v">' + kpiVal(kp) + '</div></div>';
     h += '<div class="stat"><div class="k">' + T('kpi.target') + '</div><div class="v sm">' + esc(kpiTarget(kp)) + '</div><div class="sub mut" style="font-size:11px;margin-top:4px">' + esc(kp.refStandard) + '</div></div>';
@@ -599,6 +670,175 @@
     return h;
   }
 
+  // ---------------- operational analytics ----------------
+  function opStat(k, v, color) {
+    return '<div class="stat"><div class="k">' + esc(k) + '</div><div class="v"' + (color ? ' style="color:' + color + '"' : '') + '>' + v + '</div></div>';
+  }
+  function opStats(items) { return '<div class="dtstats">' + items.map(function (x) { return opStat(x[0], x[1], x[2]); }).join('') + '</div>'; }
+  function monthLabels() { return MONTHS.map(function (m) { return m.slice(5); }); }
+  function opTabs(active) {
+    var c = D.ops ? { ar: D.ops.ar.count, sales: D.ops.sales.count, proc: D.ops.proc.count, vat: D.ops.vat.lines, cc: D.ops.cc.count, ctrl: D.ops.bankrec.lines } : {};
+    var t = [['ar', '❖', T('op.ar')], ['sales', '▦', T('op.sales')], ['proc', '⚑', T('op.proc')], ['vat', '%', T('op.vat')], ['cc', '◈', T('op.cc')], ['ctrl', '☑', T('op.ctrl')]];
+    return '<div class="extabs">' + t.map(function (x) {
+      return '<button class="etab' + (active === x[0] ? ' on' : '') + '" data-op="' + x[0] + '"><span class="ic">' + x[1] + '</span><span>' + esc(x[2]) + '</span><span class="ct">' + nf(c[x[0]], 0) + '</span></button>';
+    }).join('') + '</div>';
+  }
+  function renderOps() {
+    var h = crumb([]) + viewHead(T('ops.title'), T('ops.sub')) + opTabs(state.op);
+    if (!D.ops) return h + '<div class="empty">' + T('ops.none') + '</div>';
+    if (state.op === 'sales') h += opsSales();
+    else if (state.op === 'proc') h += opsProc();
+    else if (state.op === 'vat') h += opsVat();
+    else if (state.op === 'cc') h += opsCC();
+    else if (state.op === 'ctrl') h += opsCtrl();
+    else h += opsAR();
+    return h;
+  }
+  function opNote(txt) { return '<div class="note">' + esc(txt) + '</div>'; }
+
+  function opsAR() {
+    var a = D.ops.ar;
+    var h = opStats([
+      [T('ops.ar.invoiced'), money(a.invoiced)],
+      [T('ops.ar.collected'), money(a.collected), 'var(--pos)'],
+      [T('ops.ar.outstanding'), money(a.outstanding)],
+      [T('ops.ar.overdue'), money(a.overdue), a.overdue > 0 ? 'var(--warn)' : null],
+      [T('ops.ar.high90'), money(a.high90), a.high90 > 0 ? 'var(--neg)' : null],
+      [T('ops.ar.count'), nf(a.count, 0)]
+    ]);
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ops.ar.chMonth') + '</h3><div id="arMonth" class="chart"></div></div>';
+    h += '<div class="card chartcard"><h3>' + T('ops.ar.chAging') + '</h3><div id="arAging" class="chart"></div></div></div>';
+    var list = a.customers;
+    h += '<div class="tablewrap"><table><thead><tr><th>#</th><th>' + T('c.name') + '</th><th class="r">' + T('ops.ar.count') + '</th><th class="r">' + T('c.total') + '</th><th class="r">' + T('c.outstanding') + '</th></tr></thead><tbody>';
+    if (!list.length) h += '<tr><td colspan="5"><div class="empty">' + T('noRows') + '</div></td></tr>';
+    var tT = 0, tO = 0;
+    list.slice(0, 60).forEach(function (c, i) {
+      tT += c.total; tO += c.outstanding;
+      h += '<tr><td class="num mut">' + (i + 1) + '</td><td>' + esc(c.name) + '</td><td class="r num">' + nf(c.invoices, 0) + '</td><td class="r num">' + nf(c.total, 2) + '</td><td class="r num"' + (c.outstanding > 0 ? ' style="color:var(--warn)"' : '') + '>' + nf(c.outstanding, 2) + '</td></tr>';
+    });
+    h += '</tbody><tfoot><tr><td colspan="3">' + T('ops.ar.topc') + ' · ' + nf(Math.min(list.length, 60), 0) + ' ' + T('ops.records') + '</td><td class="r num">' + nf(tT, 2) + '</td><td class="r num">' + nf(tO, 2) + '</td></tr></tfoot></table></div>';
+    h += opNote(T('ops.ar.topc') + ' — ' + T('ops.asof') + ' ' + (a.asof ? rowISO(a.asof) : '-'));
+    return h;
+  }
+
+  function opsSales() {
+    var s = D.ops.sales;
+    var avg = s.count ? s.total / s.count : 0;
+    var h = opStats([
+      [T('ops.sales.count'), nf(s.count, 0)],
+      [T('ops.sales.total'), money(s.total)],
+      [T('ops.sales.avg'), money(avg)],
+      [T('ops.sales.customers'), nf(s.byCustomer.length, 0)],
+      [T('ops.sales.people'), nf(s.bySales.length, 0)]
+    ]);
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ops.sales.chMonth') + '</h3><div id="salesMonth" class="chart"></div></div>';
+    h += '<div class="card chartcard"><h3>' + T('ops.sales.chPeople') + '</h3><div id="salesPeople" class="chart"></div></div>';
+    h += '<div class="card chartcard"><h3>' + T('ops.sales.chCust') + '</h3><div id="salesCust" class="chart"></div></div></div>';
+    var list = s.bySales;
+    h += '<div class="tablewrap"><table><thead><tr><th>#</th><th>' + T('c.salesperson') + '</th><th class="r">' + T('c.orders') + '</th><th class="r">' + T('c.total') + '</th></tr></thead><tbody>';
+    if (!list.length) h += '<tr><td colspan="4"><div class="empty">' + T('noRows') + '</div></td></tr>';
+    var tN = 0, tT = 0;
+    list.slice(0, 60).forEach(function (p, i) {
+      tN += p.count; tT += p.total;
+      h += '<tr><td class="num mut">' + (i + 1) + '</td><td>' + esc(p.name) + '</td><td class="r num">' + nf(p.count, 0) + '</td><td class="r num">' + nf(p.total, 2) + '</td></tr>';
+    });
+    h += '</tbody><tfoot><tr><td colspan="2">' + T('ops.sales.byPeople') + '</td><td class="r num">' + nf(tN, 0) + '</td><td class="r num">' + nf(tT, 2) + '</td></tr></tfoot></table></div>';
+    return h;
+  }
+
+  function opsProc() {
+    var p = D.ops.proc;
+    var h = opStats([
+      [T('ops.proc.count'), nf(p.count, 0)],
+      [T('ops.proc.total'), money(p.total)],
+      [T('ops.proc.net'), money(p.untaxed)],
+      [T('ops.proc.tax'), money(p.tax)]
+    ]);
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ops.proc.chMonth') + '</h3><div id="procMonth" class="chart"></div></div>';
+    h += '<div class="card chartcard"><h3>' + T('ops.proc.chVendor') + '</h3><div id="procVend" class="chart"></div></div></div>';
+    var list = p.orders.slice().sort(function (a, b) { return (b[10] || 0) - (a[10] || 0); });
+    h += '<div class="tablewrap" style="max-height:520px"><table><thead><tr><th>' + T('c.ref') + '</th><th>' + T('c.vendor') + '</th><th>' + T('c.confirm') + '</th><th>' + T('c.status') + '</th><th>' + T('c.billing') + '</th><th class="r">' + T('c.total') + '</th></tr></thead><tbody>';
+    if (!list.length) h += '<tr><td colspan="6"><div class="empty">' + T('noRows') + '</div></td></tr>';
+    list.forEach(function (o) {
+      h += '<tr><td class="num">' + esc(o[0]) + '</td><td>' + esc(o[1]) + '</td><td class="num">' + (o[3] ? rowISO(o[3]) : '-') + '</td><td class="mut">' + esc(o[5]) + '</td><td class="mut">' + esc(o[6]) + '</td><td class="r num">' + nf(o[10], 2) + '</td></tr>';
+    });
+    h += '</tbody><tfoot><tr><td colspan="5">' + T('ops.proc.list') + ' · ' + nf(list.length, 0) + '</td><td class="r num">' + nf(p.total, 2) + '</td></tr></tfoot></table></div>';
+    return h;
+  }
+
+  function vatName(nm) { if (/مبيعات|sales/i.test(nm)) return T('ops.vat.sales'); if (/مشتريات|purch/i.test(nm)) return T('ops.vat.purch'); return nm; }
+
+  function opsVat() {
+    var v = D.ops.vat;
+    var h = opStats([
+      [T('ops.vat.sales'), money(v.salesTax)],
+      [T('ops.vat.purch'), money(v.purchTax)],
+      [T('ops.vat.net'), money(v.netTax), v.netTax >= 0 ? 'var(--warn)' : 'var(--pos)'],
+      [T('ops.vat.lines'), nf(v.lines, 0)]
+    ]);
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ops.vat.chMonth') + '</h3><div id="vatMonth" class="chart"></div></div>';
+    h += '<div class="card chartcard"><h3>' + T('ops.vat.chOrig') + '</h3><div id="vatOrig" class="chart"></div></div></div>';
+    var list = v.byOriginator;
+    h += '<div class="tablewrap"><table><thead><tr><th>#</th><th>' + T('c.origin') + '</th><th class="r">' + T('c.lines') + '</th><th class="r">' + T('c.base') + '</th><th class="r">' + T('c.amount') + '</th></tr></thead><tbody>';
+    var tB = 0, tL = 0;
+    list.forEach(function (o, i) {
+      tB += o.base; tL += o.lines;
+      h += '<tr><td class="num mut">' + (i + 1) + '</td><td>' + esc(vatName(o.name)) + '</td><td class="r num">' + nf(o.lines, 0) + '</td><td class="r num">' + nf(o.base, 2) + '</td><td class="r num">' + nf(Math.abs(o.balance), 2) + '</td></tr>';
+    });
+    h += '</tbody><tfoot><tr><td colspan="2">' + T('ops.vat.net') + '</td><td class="r num">' + nf(tL, 0) + '</td><td class="r num">' + nf(tB, 2) + '</td><td class="r num">' + nf(v.netTax, 2) + '</td></tr></tfoot></table></div>';
+    h += opNote(T('ops.vat.net') + ' = ' + T('ops.vat.sales') + ' − ' + T('ops.vat.purch'));
+    return h;
+  }
+
+  function opsCC() {
+    var c = D.ops.cc;
+    var h = opStats([
+      [T('ops.cc.count'), nf(c.count, 0)],
+      [T('ops.cc.revenue'), money(c.revenue)],
+      [T('ops.cc.cost'), money(c.cost)],
+      [T('ops.cc.net'), money(c.net), c.net >= 0 ? 'var(--pos)' : 'var(--neg)'],
+      [T('ops.cc.loss'), nf(c.lossCount, 0), c.lossCount > 0 ? 'var(--neg)' : 'var(--pos)']
+    ]);
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ops.cc.chTop') + '</h3><div id="ccTop" class="chart"></div></div>';
+    h += '<div class="card chartcard"><h3>' + T('ops.cc.chNet') + '</h3><div id="ccNet" class="chart"></div></div></div>';
+    var list = c.rows;
+    h += '<div class="tablewrap" style="max-height:520px"><table><thead><tr><th>#</th><th>' + T('c.name') + '</th><th>' + T('c.plan') + '</th><th class="r">' + T('ops.cc.revenue') + '</th><th class="r">' + T('ops.cc.cost') + '</th><th class="r">' + T('ops.cc.net') + '</th></tr></thead><tbody>';
+    list.forEach(function (r, i) {
+      h += '<tr><td class="num mut">' + (i + 1) + '</td><td>' + esc(r.name) + '</td><td class="mut">' + esc(r.customer || r.plan) + '</td><td class="r num">' + nf(r.revenue, 2) + '</td><td class="r num">' + nf(r.cost, 2) + '</td><td class="r num"' + (r.net < 0 ? ' style="color:var(--neg)"' : '') + '>' + nf(r.net, 2) + '</td></tr>';
+    });
+    h += '</tbody><tfoot><tr><td colspan="3">' + T('ops.cc.list') + ' · ' + nf(list.length, 0) + '</td><td class="r num">' + nf(c.revenue, 2) + '</td><td class="r num">' + nf(c.cost, 2) + '</td><td class="r num">' + nf(c.net, 2) + '</td></tr></tfoot></table></div>';
+    return h;
+  }
+
+  function opsCtrl() {
+    var b = D.ops.bankrec, l = D.ops.loans;
+    var h = opStats([
+      [T('ops.ctrl.rate'), pct(b.rate)],
+      [T('ops.ctrl.recon'), nf(b.reconciled, 0), 'var(--pos)'],
+      [T('ops.ctrl.unrec'), nf(b.unreconciled, 0), b.unreconciled > 0 ? 'var(--warn)' : null],
+      [T('ops.ctrl.inflow'), money(b.inflow)],
+      [T('ops.ctrl.outflow'), money(b.outflow)]
+    ]);
+    h += '<div class="chartgrid"><div class="card chartcard"><h3>' + T('ops.ctrl.chBank') + '</h3><div id="bankMonth" class="chart"></div></div>';
+    h += '<div class="card chartcard"><h3>' + T('ops.ctrl.banks') + '</h3><div id="bankBars" class="chart"></div></div></div>';
+    h += '<div class="card" style="margin-bottom:16px"><h3>' + T('ops.ctrl.banks') + '</h3><div class="tablewrap"><table><thead><tr><th>' + T('c.journal') + '</th><th class="r">' + T('c.lines') + '</th><th class="r">' + T('ops.ctrl.inflow') + '</th><th class="r">' + T('ops.ctrl.outflow') + '</th><th class="r">' + T('c.net') + '</th><th class="r">' + T('c.reconciled') + '</th><th class="r">' + T('c.unreconciled') + '</th></tr></thead><tbody>';
+    b.banks.forEach(function (k) {
+      h += '<tr><td>' + esc(k.journal) + '</td><td class="r num">' + nf(k.lines, 0) + '</td><td class="r num">' + nf(k.inflows, 2) + '</td><td class="r num">' + nf(k.outflows, 2) + '</td><td class="r num">' + nf(k.net, 2) + '</td><td class="r num">' + nf(k.reconciled, 0) + '</td><td class="r num"' + (k.unreconciled > 0 ? ' style="color:var(--warn)"' : '') + '>' + nf(k.unreconciled, 0) + '</td></tr>';
+    });
+    h += '</tbody></table></div></div>';
+    h += '<div class="card"><h3>' + T('ops.ctrl.loans') + '</h3><div class="tablewrap"><table><thead><tr><th>' + T('ops.loan.account') + '</th><th class="r">' + T('ops.loan.opening') + '</th><th class="r">' + T('ops.loan.closing') + '</th><th class="r">' + T('ops.loan.movement') + '</th></tr></thead><tbody>';
+    l.facilities.forEach(function (x) {
+      h += '<tr><td>' + esc(x.account) + '</td><td class="r num">' + nf(x.opening, 2) + '</td><td class="r num">' + nf(x.closing, 2) + '</td><td class="r num"' + (x.movement < 0 ? ' style="color:var(--pos)"' : '') + '>' + nf(x.movement, 2) + '</td></tr>';
+    });
+    h += '</tbody><tfoot><tr><td>' + T('c.total') + '</td><td class="r num">' + nf(l.facilOpening, 2) + '</td><td class="r num">' + nf(l.facilClosing, 2) + '</td><td class="r num">' + nf(l.facilMovement, 2) + '</td></tr></tfoot></table></div>';
+    h += '<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>' + T('c.ref') + '</th><th>' + T('c.name') + '</th><th class="r">' + T('ops.loan.amount') + '</th><th class="r">' + T('ops.loan.paid') + '</th><th class="r">' + T('ops.loan.balance') + '</th><th>' + T('c.status') + '</th></tr></thead><tbody>';
+    l.employee.slice(0, 40).forEach(function (e) {
+      h += '<tr><td class="num">' + esc(e.ref) + '</td><td>' + esc(e.employee) + '</td><td class="r num">' + nf(e.amount, 2) + '</td><td class="r num">' + nf(e.paid, 2) + '</td><td class="r num">' + nf(e.balance, 2) + '</td><td class="mut">' + esc(e.state) + '</td></tr>';
+    });
+    h += '</tbody><tfoot><tr><td colspan="2">' + T('ops.ctrl.emp') + ' · ' + nf(l.empCount, 0) + '</td><td class="r num">' + nf(l.empAmount, 2) + '</td><td class="r num">' + nf(l.empPaid, 2) + '</td><td class="r num">' + nf(l.empBalance, 2) + '</td><td></td></tr></tfoot></table></div></div>';
+    return h;
+  }
+
   // ---------------- render ----------------
   function render() {
     document.documentElement.setAttribute('dir', state.lang === 'ar' ? 'rtl' : 'ltr');
@@ -621,6 +861,7 @@
       case 'master': html = renderMaster(); break;
       case 'mapping': html = renderMapping(); break;
       case 'tx': html = renderTx(); break;
+      case 'ops': html = renderOps(); break;
       case 'proj': html = renderProj(); break;
       case 'acc': html = renderAcc(); break;
       case 'cust': html = renderCust(); break;
@@ -759,6 +1000,101 @@
           series: [{ type: 'bar', barMaxWidth: 16, data: topC.map(function (p) { return { value: p.v, itemStyle: { color: tv.ch[1], borderRadius: [0, 4, 4, 0] } }; }) }]
         });
       }
+    }
+    if (v === 'ops') { opsCharts(tv, axis); }
+  }
+
+  // ---------------- operational charts ----------------
+  function vBar(id, cats, series, tv, axis, fmt) {
+    var ch = chartHost(id); if (!ch) return;
+    ch.setOption({
+      grid: { left: 6, right: 12, top: 30, bottom: 6, containLabel: true },
+      tooltip: { trigger: 'axis', valueFormatter: fmt },
+      legend: series.length > 1 ? { top: 0, textStyle: { color: tv.muted, fontSize: 11 }, data: series.map(function (s) { return s.name; }) } : undefined,
+      xAxis: Object.assign({ type: 'category', data: cats }, axis),
+      yAxis: Object.assign({ type: 'value', splitLine: { lineStyle: { color: tv.grid } } }, axis),
+      series: series.map(function (s) { return { name: s.name, type: 'bar', barMaxWidth: series.length > 1 ? 16 : 22, data: s.data, itemStyle: { color: s.color, borderRadius: [3, 3, 0, 0] } }; })
+    });
+  }
+  function hBar(id, cats, vals, color, tv, axis, fmt) {
+    var ch = chartHost(id); if (!ch) return;
+    if (!cats.length) { chartEmpty(id); return; }
+    ch.setOption({
+      grid: { left: 6, right: 18, top: 10, bottom: 6, containLabel: true },
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: fmt },
+      xAxis: Object.assign({ type: 'value', splitLine: { lineStyle: { color: tv.grid } } }, axis),
+      yAxis: Object.assign({ type: 'category', data: cats }, axis),
+      series: [{ type: 'bar', barMaxWidth: 16, data: vals.map(function (v) { var c = (typeof color === 'function') ? color(v) : color; return { value: v, itemStyle: { color: c, borderRadius: [0, 4, 4, 0] } }; }) }]
+    });
+  }
+  function pieChart(id, data, tv, fmt) {
+    var ch = chartHost(id); if (!ch) return;
+    var tot = data.reduce(function (a, b) { return a + (b.value || 0); }, 0);
+    if (!tot) { chartEmpty(id); return; }
+    ch.setOption({
+      tooltip: { trigger: 'item', valueFormatter: fmt },
+      legend: { bottom: 0, textStyle: { color: tv.muted, fontSize: 11 } },
+      series: [{ type: 'pie', radius: ['46%', '74%'], center: ['50%', '44%'], label: { color: tv.text, fontSize: 11, formatter: '{b}\n{c}' }, labelLine: { lineStyle: { color: tv.grid } }, itemStyle: { borderColor: tv.panel, borderWidth: 3 }, data: data }]
+    });
+  }
+  function opsCharts(tv, axis) {
+    var O = D.ops; if (!O) return;
+    var fmt = function (x) { return nf(x, 2); };
+    var sub = function (s) { return s.length > 26 ? s.slice(0, 25) + '…' : s; };
+    if (state.op === 'ar') {
+      vBar('arMonth', monthLabels(), [
+        { name: T('ops.ar.invoiced'), data: O.ar.monthly.map(function (m) { return m[0]; }), color: tv.ch[0] },
+        { name: T('ops.ar.collected'), data: O.ar.monthly.map(function (m) { return m[1]; }), color: tv.pos }
+      ], tv, axis, fmt);
+      var ag = O.ar.aging;
+      pieChart('arAging', [
+        { name: '0–30', value: ag[0], itemStyle: { color: tv.pos } },
+        { name: '31–60', value: ag[1], itemStyle: { color: tv.ch[2] } },
+        { name: '61–90', value: ag[2], itemStyle: { color: tv.warn } },
+        { name: '>90', value: ag[3], itemStyle: { color: tv.neg } }
+      ], tv, fmt);
+    } else if (state.op === 'sales') {
+      vBar('salesMonth', monthLabels(), [{ name: T('ops.sales.total'), data: O.sales.monthly, color: tv.ch[1] }], tv, axis, fmt);
+      var tp = O.sales.bySales.slice(0, 10).reverse();
+      hBar('salesPeople', tp.map(function (x) { return sub(x.name); }), tp.map(function (x) { return x.total; }), tv.ch[5], tv, axis, fmt);
+      var tc = O.sales.byCustomer.slice(0, 10).reverse();
+      hBar('salesCust', tc.map(function (x) { return sub(x.name); }), tc.map(function (x) { return x.total; }), tv.ch[0], tv, axis, fmt);
+    } else if (state.op === 'proc') {
+      vBar('procMonth', monthLabels(), [{ name: T('ops.proc.total'), data: O.proc.monthly, color: tv.ch[6] }], tv, axis, fmt);
+      var tvv = O.proc.byVendor.slice(0, 10).reverse();
+      hBar('procVend', tvv.map(function (x) { return sub(x.name); }), tvv.map(function (x) { return x.total; }), tv.ch[6], tv, axis, fmt);
+    } else if (state.op === 'vat') {
+      vBar('vatMonth', monthLabels(), [
+        { name: T('ops.vat.sales'), data: O.vat.monthly.map(function (m) { return m[0]; }), color: tv.ch[1] },
+        { name: T('ops.vat.purch'), data: O.vat.monthly.map(function (m) { return m[1]; }), color: tv.ch[3] }
+      ], tv, axis, fmt);
+      var cols = [tv.ch[0], tv.ch[1], tv.ch[2], tv.ch[3], tv.ch[4], tv.ch[5], tv.ch[6], tv.ch[7]];
+      pieChart('vatOrig', O.vat.byOriginator.map(function (o, i) { return { name: vatName(o.name), value: Math.abs(o.balance), itemStyle: { color: cols[i % cols.length] } }; }), tv, fmt);
+    } else if (state.op === 'cc') {
+      var top = O.cc.rows.slice(0, 12);
+      var ch = chartHost('ccTop');
+      if (ch) {
+        if (!top.length) chartEmpty('ccTop');
+        else ch.setOption({
+          grid: { left: 6, right: 12, top: 30, bottom: 6, containLabel: true },
+          tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: fmt },
+          legend: { top: 0, textStyle: { color: tv.muted, fontSize: 11 }, data: [T('ops.cc.revenue'), T('ops.cc.cost')] },
+          xAxis: Object.assign({ type: 'value', splitLine: { lineStyle: { color: tv.grid } } }, axis),
+          yAxis: Object.assign({ type: 'category', data: top.map(function (r) { return sub(r.name); }).reverse() }, axis),
+          series: [
+            { name: T('ops.cc.revenue'), type: 'bar', barMaxWidth: 12, data: top.map(function (r) { return r.revenue; }).reverse(), itemStyle: { color: tv.pos, borderRadius: [0, 4, 4, 0] } },
+            { name: T('ops.cc.cost'), type: 'bar', barMaxWidth: 12, data: top.map(function (r) { return r.cost; }).reverse(), itemStyle: { color: tv.ch[3], borderRadius: [0, 4, 4, 0] } }
+          ]
+        });
+      }
+      var byNet = O.cc.rows.slice().sort(function (a, b) { return Math.abs(b.net) - Math.abs(a.net); }).slice(0, 14).reverse();
+      hBar('ccNet', byNet.map(function (r) { return sub(r.name); }), byNet.map(function (r) { return r.net; }), function (v) { return v < 0 ? tv.neg : tv.pos; }, tv, axis, fmt);
+    } else if (state.op === 'ctrl') {
+      vBar('bankMonth', monthLabels(), [
+        { name: T('ops.ctrl.inflow'), data: O.bankrec.monthly.map(function (m) { return m[0]; }), color: tv.pos },
+        { name: T('ops.ctrl.outflow'), data: O.bankrec.monthly.map(function (m) { return m[1]; }), color: tv.neg }
+      ], tv, axis, fmt);
+      hBar('bankBars', O.bankrec.banks.map(function (b) { return sub(b.journal); }), O.bankrec.banks.map(function (b) { return b.net; }), function (v) { return v < 0 ? tv.neg : tv.pos; }, tv, axis, fmt);
     }
   }
 
@@ -913,6 +1249,7 @@
       return;
     }
     var krow = t.closest('[data-kpi]'); if (krow) { setKpi(krow.getAttribute('data-kpi')); return; }
+    var opt2 = t.closest('[data-op]'); if (opt2) { state.op = opt2.getAttribute('data-op'); state.f.page = 1; render(); return; }
     // detail popup triggers
     var pd = t.closest('[data-projdetail]'); if (pd) { openDetail('proj', parseInt(pd.getAttribute('data-projdetail'), 10)); return; }
     var ad = t.closest('[data-accdetail]'); if (ad) { openDetail('acc', ad.getAttribute('data-accdetail')); return; }
