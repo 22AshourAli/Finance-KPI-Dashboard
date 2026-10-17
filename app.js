@@ -34,6 +34,7 @@
       'review.only': 'مراجعة الاستثناءات وجاهزية البيانات فقط', 'review.obj': 'مراجعة لوحة المحور', 'review.fin': 'فتح لوحة الإدارة المالية',
       'avg.score': 'متوسط النتيجة', 'kpi.count': 'عدد المؤشرات',
       'kpi.title': 'لوحة المؤشر', 'kpi.actual': 'القيمة الفعلية', 'kpi.target': 'الهدف / الحد', 'kpi.score100': 'النتيجة / 100', 'kpi.status': 'الحالة',
+      'tg.prop': 'هدف مقترح',
       'sec.manage': 'النظرة الإدارية', 'sec.trend': 'الاتجاه / التاريخ', 'sec.def': 'تعريف المؤشر وحاكميته', 'sec.lineage': 'خط الإمداد بالبيانات', 'sec.drill': 'التنزّل',
       'manage.decision': 'قرار الإدارة', 'perf.readiness': 'جاهزية البيانات',
       'trend.na': 'غير متاح من تصدير Odoo الحالي — يلزم توفير فترات تاريخية لتحليل الاتجاه.',
@@ -112,6 +113,7 @@
       'review.only': 'Review only exceptions and readiness gaps', 'review.obj': 'Review objective dashboard', 'review.fin': 'Open finance dashboard',
       'avg.score': 'Average Score', 'kpi.count': 'KPIs',
       'kpi.title': 'KPI Performance Dashboard', 'kpi.actual': 'Actual', 'kpi.target': 'Target / Threshold', 'kpi.score100': 'Score / 100', 'kpi.status': 'Status',
+      'tg.prop': 'proposed target',
       'sec.manage': 'Management View', 'sec.trend': 'Trend / History', 'sec.def': 'KPI Definition & Governance', 'sec.lineage': 'Data Lineage', 'sec.drill': 'Drill-down',
       'manage.decision': 'Management Decision', 'perf.readiness': 'Performance Readiness',
       'trend.na': 'Not available from current Odoo export — historical periods are required for trend analysis.',
@@ -227,10 +229,13 @@
     var u = String(kp.unit || '');
     function f(v) { return v == null ? null : (u === '%' ? pct(v) : nf(v, 2)); }
     var a = f(kp.targetLow), b = f(kp.targetHigh);
-    if (a != null && b != null) return a + ' – ' + b;
-    if (a != null) return '≥ ' + a;
-    if (b != null) return '≤ ' + b;
-    return '—';
+    var txt;
+    if (a != null && b != null) txt = a + ' – ' + b;
+    else if (a != null) txt = '≥ ' + a;
+    else if (b != null) txt = '≤ ' + b;
+    else txt = '—';
+    if (kp.targetAssumed && txt !== '—') txt += ' · ' + T('tg.prop');
+    return txt;
   }
 
   // ---------------- status ----------------
