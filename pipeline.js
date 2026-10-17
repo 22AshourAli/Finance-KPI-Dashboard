@@ -224,31 +224,6 @@
       }
     }
 
-    // Proposed numeric targets for KPIs the master leaves as free-text policy only
-    // (no Target Low/High in 'KPI Calculation'). Values are benchmarks/policy proposals
-    // and are surfaced to the UI as "proposed" pending management approval.
-    var ASSUMED_TARGETS = {
-      'F02-K02': { low: 0.40, note: '>= 40% (consulting gross-margin benchmark)' },
-      'F02-K03': { low: 0.20, note: '>= 20% (EBITDA-margin target)' },
-      'F02-K04': { low: 0.15, note: '>= 15% (net-margin target)' },
-      'F02-K05': { low: 0.10, note: '>= 10% (above cost of capital)' },
-      'F02-K06': { high: 0.10, note: '<= 10% (overhead-to-revenue ceiling)' },
-      'F03-K01': { low: 15000000, note: '>= 15,000,000 SAR minimum cash' },
-      'F03-K02': { low: 0, note: '>= 0 (positive operating cash flow)' },
-      'F03-K06': { high: 0.05, note: '<= 5% financing-cost ratio ceiling' },
-      'F04-K03': { high: 45, note: '<= 45 days cash-conversion cycle' },
-      'F04-K06': { high: 0.30, note: '<= 30% working-capital intensity' },
-      'F05-K03': { high: 0.15, note: '<= 15% cost-to-revenue ceiling' },
-      'F05-K06': { high: 100000, note: '<= 100,000 SAR cost per revenue unit' },
-      'F07-K01': { low: 0.25, note: '>= 25% approved project gross margin' },
-      'F07-K05': { low: 0.90, note: '>= 90% project cash conversion' },
-      'F09-K05': { high: 0.01, note: '<= 1% unusual-transaction threshold' },
-      'F10-K01': { high: 500000, note: '<= 500,000 SAR risk-appetite ceiling' },
-      'F10-K02': { high: 0.05, note: '<= 5% high-risk receivables threshold' },
-      'F10-K04': { high: 0.30, note: '<= 30% customer-concentration limit' },
-      'F10-K05': { high: 0.20, note: '<= 20% contractual-exposure threshold' }
-    };
-
     function scoreOf(actual, low, high) {
       if (actual == null || !isFinite(actual)) return null;
       var hasL = low != null, hasH = high != null;
@@ -277,6 +252,14 @@
         if (m[3] === '%') v = v / 100;
         return (m[1] === '>=' || m[1] === '≥') ? { low: v, high: null } : { low: null, high: v };
       }
+      var rng = /([\d.]+)\s*(%|x)?\s*[–-]\s*([\d.]+)\s*(%|x)?/i.exec(text);
+      if (rng) {
+        var a = parseFloat(rng[1]), b = parseFloat(rng[3]);
+        if (!isNaN(a) && !isNaN(b)) {
+          if (rng[2] === '%' || rng[4] === '%') { a = a / 100; b = b / 100; }
+          return { low: Math.min(a, b), high: Math.max(a, b) };
+        }
+      }
       var m2 = /([\d.]+)\s*%/i.exec(text);
       if (m2) {
         var v2 = parseFloat(m2[1]); if (isNaN(v2)) return null;
@@ -299,12 +282,12 @@
         var pt = parseTarget(str(m[9]), str(m[6]), str(m[14]));
         if (pt) tgt = pt;
       }
+      // Targets come ONLY from the master file: numeric Target Low/High in
+      // 'KPI Calculation', else parsed from the numeric 'Target / Threshold' text.
+      // Where the master gives only qualitative policy text (e.g. "Business-model
+      // target") there is no numeric target in the file, so the KPI stays
+      // 'Target Pending' — nothing is invented.
       var tgtNote = '';
-      if (tgt.low == null && tgt.high == null && ASSUMED_TARGETS[code]) {
-        var at = ASSUMED_TARGETS[code];
-        tgt = { low: at.low == null ? null : at.low, high: at.high == null ? null : at.high };
-        tgtNote = at.note;
-      }
       var fn = F[code];
       var rawActual = fn ? fn() : null;
       var actual = r6(rawActual);
