@@ -303,11 +303,16 @@
         totK++;
         if (kp.actual != null && kp.code !== 'F08-K04' && kp.code !== 'F08-K06') readySub++;
       }); });
-      var readyM = 0, totM = 0;
-      Object.keys(METRIC).forEach(function (k) { totM++; if (METRIC[k].value != null) readyM++; });
       function setMetric(k, value, src, lbl) { if (METRIC[k]) { METRIC[k].value = value; METRIC[k].ready = value != null; if (src) METRIC[k].source = src; if (lbl) METRIC[k].label = lbl; } }
       setMetric('Reports_Covered', readySub + 2, 'Derived (KPI register)', 'KPIs with valid data');
       setMetric('Reports_Total', totK, 'Derived (KPI register)', 'Total required KPIs');
+      // resolve the lineage metrics first, then count every mapped metric that has a
+      // value (including the four self-referential governance metrics) so this matches
+      // the Data Mapping view exactly.
+      setMetric('Lineage_Covered', 0, 'Derived (Data Mapping)', 'Metrics with a resolved value');
+      setMetric('Lineage_Total', 0, 'Derived (Data Mapping)', 'Total mapped metrics');
+      var readyM = 0, totM = 0;
+      Object.keys(METRIC).forEach(function (k) { totM++; if (METRIC[k].value != null) readyM++; });
       setMetric('Lineage_Covered', readyM, 'Derived (Data Mapping)', 'Metrics with a resolved value');
       setMetric('Lineage_Total', totM, 'Derived (Data Mapping)', 'Total mapped metrics');
       objectives.forEach(function (o) { o.kpis.forEach(function (kp) {
